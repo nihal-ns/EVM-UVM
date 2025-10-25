@@ -13,6 +13,7 @@ class Evm_sequence extends uvm_sequence #(Evm_seq_item);
 		wait_for_item_done();	
 	endtask
 endclass
+
 //-----------------------------------------------------------------------------------------------------------------------------
 // Candidate vote count (c1 wins)
 class Evm_c1_win_sequence extends uvm_sequence #(Evm_seq_item);
