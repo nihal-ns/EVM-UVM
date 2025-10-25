@@ -6,22 +6,30 @@ class Evm_monitor_act extends uvm_monitor;
 
 	function new(string name = "Evm_monitor_act", uvm_component parent);     
 		super.new(name,parent);
-	endfunction	
+	endfunction: new
 
 	function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		mon_act_port = new("mon_act_port",this);         
 		if(!uvm_config_db#(virtual _intf)::get(this,"","vif",vif))              // CHANGE THE NAME
 			`uvm_fatal("NO_VIF","virtual interface failed to get from config");
-	endfunction	
+	endfunction: build_phase
 
 	task run_phase(uvm_phase phase);
 		forever begin
-						
+			_seq_item item = _seq_item::type_id::create("item");
+			@(vif.mon_cb);
+			item.vote_candidate_1 = vif.vote_candidate_1;
+			item.vote_candidate_2 = vif.vote_candidate_2;
+			item.vote_candidate_3 = vif.vote_candidate_3;
+			item.switch_on_evm = vif.switch_on_evm;
+			item.candidate_ready = vif.candidate_ready;
+			item.voting_session_done = vif.voting_session_done;
+			item.display_results = vif.display_results; 
+			item.display_winner = vif.display_winner;
+			mon_act_port.write(item);
+			`uvm_info(get_type_name(), $sformatf("monitor active: switch on:%0b | ready:%0b | candidate:%0d | session done:%0b | results:%0d | winner :%0d", item.switch_on_evm, item.candidate_ready, {item.vote_candidate_1,item.vote_candidate_2,item.vote_candidate_3}, item.voting_session_done, item.display_results, item.display_winner), UVM_LOW)
 		end
-	endtask	
-	
-	
-
+	endtask: run_phase	
 
 endclass: Evm_monitor_act  // CHANGE THE NAME
