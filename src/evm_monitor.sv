@@ -1,3 +1,6 @@
+////////////////////////////////////
+/////// Active monitor
+///////////////////////////////////
 class Evm_monitor_act extends uvm_monitor; 
 	`uvm_component_utils(Evm_monitor_act)   
 
@@ -32,4 +35,40 @@ class Evm_monitor_act extends uvm_monitor;
 		end
 	endtask: run_phase	
 
-endclass: Evm_monitor_act  // CHANGE THE NAME
+endclass: Evm_monitor_act
+
+////////////////////////////////////
+/////// Passive monitor
+////////////////////////////////////
+class Evm_monitor_pass extends uvm_monitor; 
+	`uvm_component_utils(Evm_monitor_pass)   
+
+	virtual _intf vif;                   // CHANGE THE NAME
+	uvm_analysis_port #(_seq_item) mon_pass_port;          // CHANGE THE NAME
+
+	function new(string name = "Evm_monitor_pass", uvm_component parent);     
+		super.new(name,parent);
+	endfunction: new
+
+	function void build_phase(uvm_phase phase);
+		super.build_phase(phase);
+		mon_pass_port = new("mon_pass_port",this);         
+		if(!uvm_config_db#(virtual _intf)::get(this,"","vif",vif))              // CHANGE THE NAME
+			`uvm_fatal("NO_VIF","virtual interface failed to get from config");
+	endfunction: build_phase
+
+	task run_phase(uvm_phase phase);
+		forever begin
+			_seq_item item = _seq_item::type_id::create("item");
+			@(vif.mon_cb);
+			item.candidate_name = vif.candidate_name;
+			item.invalid_results = vif.invalid_results;
+			item.results = vif.results;
+			item.voting_in_progress = vif.voting_in_progress;
+			item.voting_done = vif.voting_done; 
+			mon_pass_port.write(item);
+			`uvm_info(get_type_name(), $sformatf("monitor passive: cadidate:%0d | invalid:%0b | results:%0d | progess:%0b | done:%0b", item.cadidate_name, item.invalid_results, item.results, item.voting_in_progress, item.voting_done), UVM_LOW)
+		end
+	endtask: run_phase	
+
+endclass: Evm_monitor_pass
