@@ -1,6 +1,4 @@
 class evm_seq_item extends uvm_sequence_item;
-	`uvm_object_utils(evm_seq_item)
-
 	rand logic vote_candidate_1;
 	rand logic vote_candidate_2;
 	rand logic vote_candidate_3;
