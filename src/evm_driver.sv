@@ -23,7 +23,7 @@ class evm_driver extends uvm_driver;
 	endtask: run_phase
 
 	task drive_to_dut;
-		repeat(2)@(vif.driver_cb);
+		repeat(2)@(vif.drv_cb);
 
 	//	if(vif.rst) begin
 			vif.switch_on_evm    <= req.switch_on_evm;
@@ -41,7 +41,7 @@ class evm_driver extends uvm_driver;
 				`uvm_info(" DRV ", $sformatf("voting_session_done = %0d | display_results = %0d | display_winner = %0d", req.voting_session_done, req.display_results, req.display_winner), UVM_LOW);
 			end
 	//	end
-		repeat(1)@(vif.driver_cb);
+		repeat(1)@(vif.drv_cb);
 	endtask: drive_to_dut
 
 endclass: evm_driver
