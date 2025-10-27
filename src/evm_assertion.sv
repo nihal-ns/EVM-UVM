@@ -20,7 +20,7 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 
 
 	property pro2;
-		@(posedge clk) disable iff(!rst) |-> ($isunknown(vote_candidate_1, )) 
+		@(posedge clk) disable iff(!rst) |-> ($isunknown(vote_candidate_1, vote_candidate_2, vote_candidate_3)); 
 	endproperty
 
 	property pro3;
