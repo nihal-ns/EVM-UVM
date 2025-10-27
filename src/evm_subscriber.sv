@@ -1,11 +1,11 @@
  `uvm_analysis_imp_decl(_mon_act_cg)
-class Evm_subscriber extends uvm_subscriber#(Evm_seq_item);
+class Evm_subscriber extends uvm_subscriber#(evm_seq_item);
   `uvm_component_utils(Evm_subscriber)
   
-  uvm_analysis_imp_mon_input_cg#(Evm_seq_item, Evm_subscriber) mon_act_cg_port;
-  uvm_analysis_imp#(Evm_seq_item, Evm_subscriber) mon_pass_cg_port;
+  uvm_analysis_imp_mon_input_cg#(evm_seq_item, Evm_subscriber) mon_act_cg_port;
+  uvm_analysis_imp#(evm_seq_item, Evm_subscriber) mon_pass_cg_port;
 
-	Evm_seq_item mon_input_seq, mon_output_seq;
+	evm_seq_item mon_input_seq, mon_output_seq;
 
   real input_cov, output_cov;
 
