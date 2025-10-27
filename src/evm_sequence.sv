@@ -58,10 +58,10 @@ class Evm_rand_win_sequence extends uvm_sequence #(Evm_seq_item);
 endclass
 //-----------------------------------------------------------------------------------------------------------------------------
 // Top 2 tie invalid
-class Evm_tie_top_sequence extends uvm_sequence #(Evm_seq_item);
-	`uvm_object_utils(Evm_tie_top_sequence)
+class Evm_tie_max_sequence extends uvm_sequence #(Evm_seq_item);
+	`uvm_object_utils(Evm_tie_max_sequence)
 
-	function new(string name = "Evm_tie_top_sequence");
+	function new(string name = "Evm_tie_max_sequence");
 		super.new(name);
 	endfunction
 
@@ -76,6 +76,38 @@ class Evm_tie_top_sequence extends uvm_sequence #(Evm_seq_item);
 		begin
 			`uvm_do_with(req,{req.candidate_ready == 1;});
 			`uvm_do_with(req,{req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 1;});
+		end
+		`uvm_do_with(req,{req.voting_session_done == 1;});
+		`uvm_do_with(req,{req.display_results == 0;});
+		`uvm_do_with(req,{req.display_winner == 1;});
+	endtask
+endclass
+//-----------------------------------------------------------------------------------------------------------------------------
+// Min 2 tie not invalid
+class Evm_tie_min_sequence extends uvm_sequence #(Evm_seq_item);
+	`uvm_object_utils(Evm_tie_min_sequence)
+
+	function new(string name = "Evm_tie_min_sequence");
+		super.new(name);
+	endfunction
+
+	virtual task body();
+		`uvm_do_with(req,{req.switch_on_evm == 1;});
+		repeat(10)
+		begin
+			`uvm_do_with(req,{req.candidate_ready == 1;});
+			`uvm_do_with(req,{req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 4;});
+		end
+		repeat(10)
+		begin
+			`uvm_do_with(req,{req.candidate_ready == 1;});
+			`uvm_do_with(req,{req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 1;});
+		end
+
+		repeat(11)
+		begin
+			`uvm_do_with(req,{req.candidate_ready == 1;});
+			`uvm_do_with(req,{req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 2;});
 		end
 		`uvm_do_with(req,{req.voting_session_done == 1;});
 		`uvm_do_with(req,{req.display_results == 0;});
