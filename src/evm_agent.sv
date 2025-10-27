@@ -1,4 +1,6 @@
-
+////////////////////////////////////
+///////// Active Agent
+/////////////////////////////////////
 class evm_agent_active extends uvm_agent;
 	`uvm_component_utils(evm_agent_active)
 
@@ -30,7 +32,9 @@ class evm_agent_active extends uvm_agent;
 
 endclass: evm_agent_active
 
-
+////////////////////////////////////
+///////// Passive Agent
+/////////////////////////////////////
 class evm_agent_passive extends uvm_agent;
 	`uvm_component_utils(evm_agent_passive)
 
