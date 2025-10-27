@@ -4,7 +4,7 @@
 evm_agent_active agt_act;
 evm_agent_passive agt_pass;
 evm_scb scb;
-evm_cov cov;
+evm_subscriber cov;
 
 function new(string name = "evm_env", uvm_component parent);
 	super.new(name, parent);
@@ -16,7 +16,7 @@ super.build_phase(phase);
 agt_act = evm_agent_active::type_id::create("agt_act", this);
 agt_pass = evm_agent_passive::type_id::create("agt_pass", this);
 scb = evm_scb::type_id::create("scb", this);
-cov = evm_cov::type_id::create("cov", this);
+cov = evm_subscriber::type_id::create("cov", this);
 
 uvm_config_db#(uvm_active_passive_enum)::set(this, "agt_act", "is_active", UVM_ACTIVE);
 uvm_config_db#(uvm_active_passive_enum)::set(this, "agt_pass", "is_active", UVM_PASSIVE);
