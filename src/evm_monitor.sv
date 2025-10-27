@@ -20,7 +20,7 @@ class evm_monitor_act extends uvm_monitor;
 
 	task run_phase(uvm_phase phase);
 		forever begin
-			_seq_item item = _seq_item::type_id::create("item");
+			evm_seq_item item = evm_seq_item::type_id::create("item");
 			@(vif.mon_cb);
 			item.vote_candidate_1 = vif.vote_candidate_1;
 			item.vote_candidate_2 = vif.vote_candidate_2;
@@ -59,7 +59,7 @@ class evm_monitor_pass extends uvm_monitor;
 
 	task run_phase(uvm_phase phase);
 		forever begin
-			_seq_item item = _seq_item::type_id::create("item");
+			evm_seq_item item = evm_seq_item::type_id::create("item");
 			@(vif.mon_cb);
 			item.candidate_name = vif.candidate_name;
 			item.invalid_results = vif.invalid_results;
