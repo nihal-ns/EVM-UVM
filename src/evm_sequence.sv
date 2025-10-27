@@ -11,8 +11,8 @@ class evm_sequence extends uvm_sequence #(evm_seq_item);
 		req.randomize();
 		send_request(req);
 		wait_for_item_done();	
-	endtask
-endclass
+	endtask: body
+endclass: evm_sequence
 
 //-----------------------------------------------------------------------------------------------------------------------------
 // Candidate vote count (c1 wins)
