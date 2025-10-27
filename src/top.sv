@@ -1,7 +1,7 @@
 `define WIDTH 8
 `include "uvm_macros.svh"
 `include "evm_interface.sv"
-/* `include "design.v" */
+`include "evm_tto.v"
 `include "evm_assertion.sv"
 
 module top;
@@ -18,7 +18,7 @@ module top;
 
   evm_interface intf(clk, rst);
 
-  Design DUT (
+	evm DUT (
 		.clk(clk),
 		.rst(rst),
 		.vote_candidate_1(intf.vote_candidate_1),
