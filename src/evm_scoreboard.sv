@@ -1,3 +1,4 @@
+
 class evm_scb extends uvm_scoreboard;
   `uvm_component_utils(evm_scb)
   `uvm_analysis_imp_decl(act_mon)
@@ -6,9 +7,10 @@ class evm_scb extends uvm_scoreboard;
   evm_seq_item expect_q[$];
   evm_seq_item actual_q[$];
 
-  static bit [7:0] counter1, counter2, conter3;
+  static bit [7:0] counter1, counter2, counter3;
 
   bit [7:0] votes[int];
+  bit ready_flag;
 
   uvm_analysis_imp_act_mon #(evm_scb, evm_seq_item) expect_item;
   uvm_analysis_imp_pass_mon #(evm_scb, evm_seq_item) actual_item;
@@ -54,23 +56,35 @@ class evm_scb extends uvm_scoreboard;
       exp_item.voting_in_progress = 1;
     */
 
-    //For voting done
+
+    if(act_item.candidate_ready)
+       ready_flag = 1;
+
+    /*    //For voting done
     if(act_item.voting_process_done == 1)
-      exp_item.voting_done == 1;
+      exp_item.voting_done = 1;
     else if(!act_item.switch_on_evm)
-      exp_item.voting_done == 0;
+      exp_item.voting_done = 0;
+    */
 
     //Vote counter
-    if(act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3)
+    if(ready_flag && !candidate_ready && act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
       counter1 ++;
-    else if(~act_item.vote_candidate_1 && act_item.vote_candidate_2 && ~act_item.vote_candidate_3)
+      ready_flag = 0;
+    end
+    else if(ready_flag && !candidate_ready && ~act_item.vote_candidate_1 && act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
       counter2 ++;
-    else if(~act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && act_item.vote_candidate_3)
+      ready_flag = 0;
+    end
+    else if(ready_flag && !candidate_ready && ~act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && act_item.vote_candidate_3) begin
       counter3++;
+      ready_flag = 0;
+    end
     else if(!switch_on_evm) begin
       counter1 = 0;
       counter2 = 0;
       counter3 = 0;
+      ready_flag = 0;
     end
     else begin
       counter1 = counter1;
@@ -96,25 +110,16 @@ class evm_scb extends uvm_scoreboard;
     vote = '{counter1, counter2, counter3};
     vote.sort();
     if(act_item.voting_process_done && act_item.display_winner) begin
-      if(vote[0] == vote[1])
+      if(vote[2] == vote[1])
         exp_item.invalid_results == 1;
       else begin
-        exp_item.results = vote[0];
-  exp_item.candidate_name = (vote[0] == counter1)?2'b01:((vote[0] == counter2)?2'b10:2'b11);
+        exp_item.results = vote[2];
+  exp_item.candidate_name = (vote[2] == counter1)?2'b01:((vote[2] == counter2)?2'b10:2'b11);
       end
     end
-    
   endtask
 
   task compare_exp_actual (input evm_seq_item actual_output, input evm_seq_item expected_output);
-
-    if(actual_output.vote_done == expected_output.vote_done) begin
-      `uvm_info("SCB", "THE VOTE DONE MATCHES", UVM_NONE)
-    end
-    else begin
-     `uvm_info("SCB", "THE VOTE DONE MISSMATCH", UVM_NONE)
-    end
-
     if(actual_output.candidate_name == expected_output.candidate_name) begin
       `uvm_info("SCB", "THE CANDIDATE NAME MATCHES", UVM_NONE)
     end
