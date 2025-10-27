@@ -8,15 +8,27 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 	input display_results; // width
 	input display_winner;
 
-	output candidate_name; // width
-	output invalid_results; 
-	output results; // width 
-	output voting_in_progress;
-	output voting_done;
-	
+	input candidate_name; // width
+	input invalid_results; 
+	input results; // width 
+	input voting_in_progress;
+	input voting_done;
+		
 	property pro1;
 		@(posedge clk) !rst |-> (!invalid_results	&& !voting_in_progress && voting_done ; //candidate_name and results pending
 	endproperty
 
+
+	property pro2;
+		@(posedge clk) disable iff(!rst) |-> ($isunknown(vote_candidate_1, )) 
+	endproperty
+
+	property pro3;
+		@(posedge clk) candidate_ready |-> voting_in_progress && !voting_done; // should check again
+	endproperty
+
+	property pro4;
+		@(posedge clk) 
+	endproperty
 
 endprogram: evm_assertion
