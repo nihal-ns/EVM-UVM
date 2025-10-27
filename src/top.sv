@@ -2,6 +2,7 @@
 `include "uvm_macros.svh"
 `include "evm_interface.sv"
 `include "evm_tto.v"
+`include "evm_pkg.sv"
 `include "evm_assertion.sv"
 
 module top;

@@ -1,3 +1,4 @@
+`define WIDTH 8
 package evm_pkg;
   import uvm_pkg::*;
   `include "uvm_macros.svh"
