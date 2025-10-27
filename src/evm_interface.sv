@@ -1,4 +1,4 @@
-interface Evm_intercase(input clk,rst);
+interface evm_interface(input clk,rst);
 	logic clk;
 	logic rst;
 	logic vote_candidate_1;
@@ -12,11 +12,11 @@ interface Evm_intercase(input clk,rst);
 
 	logic [1:0] candidate_name;
 	logic invalid_results;
-	logic [WIDTH-1:0] results;
+	logic [`WIDTH-1:0] results;
 	logic voting_in_progress;
 	logic voting_done;
-	clocking drv_cb
-		@(posedge clk);
+
+	clocking drv_cb @(posedge clk);
 		output rst,
 		output vote_candidate_1,
 		output vote_candidate_2,
@@ -27,8 +27,8 @@ interface Evm_intercase(input clk,rst);
 		output display_results,
 		output display_winner,
 	endclocking
-	clocking mon_cb
-		@(posedge clk);
+
+	clocking mon_cb @(posedge clk);
 		input rst,
 		input vote_candidate_1,
 		input vote_candidate_2,
@@ -45,6 +45,7 @@ interface Evm_intercase(input clk,rst);
 		input voting_in_progress;
 		input voting_done;
 	endclocking
+	
 	modport drv_mod(clocking drv_cb);
-		modport mon_mod(clocking mon_cb);
+	modport mon_mod(clocking mon_cb);
 endinterface

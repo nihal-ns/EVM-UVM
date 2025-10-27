@@ -1,8 +1,25 @@
 class evm_seq_item extends uvm_sequence_item;
 	`uvm_object_utils(evm_seq_item)
+
+	rand logic vote_candidate_1;
+	rand logic vote_candidate_2;
+	rand logic vote_candidate_3;
+	rand logic switch_on_evm;        
+	rand logic candidate_ready;
+	rand logic voting_session_done;
+	rand logic [1:0] display_results;
+	rand logic display_winner;
+
+	logic [1:0] candidate_name;
+	logic invalid_results;
+	logic [`WIDTH-1:0] results;
+	logic voting_in_progress;
+	logic voting_done;
+
 	function new(string name="evm_seq_item");
 		super.new(name);
 	endfunction
+
 	`uvm_object_utils_begin(evm_seq_item);
 		`uvm_field_int(vote_candidate_1,UVM_ALL_ON);
 		`uvm_field_int(vote_candidate_2,UVM_ALL_ON);
