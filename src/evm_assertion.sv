@@ -5,12 +5,12 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 	input switch_on_evm;
 	input candidate_ready;
 	input voting_session_done;
-	input display_results; // width
+	input [1:0] display_results; // width
 	input display_winner;
 
-	input candidate_name; // width
+	input [1:0] candidate_name; // width
 	input invalid_results; 
-	input results; // width 
+	input [`WIDTH-1:0] results; // width 
 	input voting_in_progress;
 	input voting_done;
 		
