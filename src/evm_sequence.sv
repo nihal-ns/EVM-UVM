@@ -24,13 +24,13 @@ class evm_c1_win_sequence extends uvm_sequence #(evm_seq_item);
 	endfunction
 
 	virtual task body();
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
 		repeat(20)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
 	endtask
 endclass
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -43,13 +43,13 @@ class evm_rand_win_sequence extends uvm_sequence #(evm_seq_item);
 	endfunction
 
 	virtual task body();
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
 		repeat(20)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} inside {1, 2, 4}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} inside {1, 2, 4}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
 	endtask
 endclass
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -62,18 +62,18 @@ class evm_tie_max_sequence extends uvm_sequence #(evm_seq_item);
 	endfunction
 
 	virtual task body();
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
 		repeat(10)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 4; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 4; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
 		repeat(10)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 1; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 1; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
 	endtask
 endclass
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -86,23 +86,23 @@ class evm_tie_min_sequence extends uvm_sequence #(evm_seq_item);
 	endfunction
 
 	virtual task body();
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
 		repeat(10)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 4; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 4; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
 		repeat(10)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 1; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {vreq.ote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 1; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
 		repeat(11)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} == 2; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 2; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;);
 	endtask
 endclass
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -115,13 +115,13 @@ class evm_off_sequence extends uvm_sequence #(evm_seq_item);
 	endfunction
 
 	virtual task body();
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
 		repeat(2)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
-			`uvm_do_with(req,{req.switch_on_evm == 0; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 0; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
 	endtask
 endclass
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -134,13 +134,13 @@ class evm_sudden_done_sequence extends uvm_sequence #(evm_seq_item);
 	endfunction
 
 	virtual task body();
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0;  req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
 		repeat(10)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;);
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; req.{vote_candidate_3, vote_candidate_2, vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1}} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;);
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} dist {1:=7, 2:=2, 4:=1}; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;});
 	endtask
 endclass
