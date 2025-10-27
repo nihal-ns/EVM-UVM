@@ -1,11 +1,11 @@
 ////////////////////////////////////
 /////// Active monitor
 ///////////////////////////////////
-class Evm_monitor_act extends uvm_monitor; 
-	`uvm_component_utils(Evm_monitor_act)   
+class evm_monitor_act extends uvm_monitor; 
+	`uvm_component_utils(evm_monitor_act)   
 
-	virtual _intf vif;                   // CHANGE THE NAME
-	uvm_analysis_port #(_seq_item) mon_act_port;          // CHANGE THE NAME
+	virtual evm_interface vif;    
+	uvm_analysis_port #(evm_seq_item) mon_act_port;  
 
 	function new(string name = "Evm_monitor_act", uvm_component parent);     
 		super.new(name,parent);
@@ -14,7 +14,7 @@ class Evm_monitor_act extends uvm_monitor;
 	function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		mon_act_port = new("mon_act_port",this);         
-		if(!uvm_config_db#(virtual _intf)::get(this,"","vif",vif))              // CHANGE THE NAME
+		if(!uvm_config_db#(virtual evm_interface)::get(this,"","vif",vif)) 
 			`uvm_fatal("NO_VIF","virtual interface failed to get from config");
 	endfunction: build_phase
 
@@ -35,16 +35,16 @@ class Evm_monitor_act extends uvm_monitor;
 		end
 	endtask: run_phase	
 
-endclass: Evm_monitor_act
+endclass: evm_monitor_act
 
 ////////////////////////////////////
 /////// Passive monitor
 ////////////////////////////////////
-class Evm_monitor_pass extends uvm_monitor; 
-	`uvm_component_utils(Evm_monitor_pass)   
+class evm_monitor_pass extends uvm_monitor; 
+	`uvm_component_utils(evm_monitor_pass)   
 
-	virtual _intf vif;                   // CHANGE THE NAME
-	uvm_analysis_port #(_seq_item) mon_pass_port;          // CHANGE THE NAME
+	virtual evm_interfacef vif;             
+	uvm_analysis_port #(evm_seq_item) mon_pass_port;      
 
 	function new(string name = "Evm_monitor_pass", uvm_component parent);     
 		super.new(name,parent);
@@ -53,7 +53,7 @@ class Evm_monitor_pass extends uvm_monitor;
 	function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		mon_pass_port = new("mon_pass_port",this);         
-		if(!uvm_config_db#(virtual _intf)::get(this,"","vif",vif))              // CHANGE THE NAME
+		if(!uvm_config_db#(virtual evm_interface)::get(this,"","vif",vif))        
 			`uvm_fatal("NO_VIF","virtual interface failed to get from config");
 	endfunction: build_phase
 
@@ -71,4 +71,4 @@ class Evm_monitor_pass extends uvm_monitor;
 		end
 	endtask: run_phase	
 
-endclass: Evm_monitor_pass
+endclass: evm_monitor_pass
