@@ -25,7 +25,7 @@ class evm_agent_active extends uvm_agent;
 
 	function void connect_phase(uvm_phase phase);
 		super.connect_phase(phase);
-		if(is_active == UVM_ACTIVE) begin
+		if(get_is_active() == UVM_ACTIVE) begin
 			drv_h.seq_item_port.connect(sqr_h.seq_item_export);
 		end
 	endfunction: connect_phase
