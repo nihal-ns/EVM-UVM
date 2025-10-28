@@ -1,9 +1,7 @@
-
+  `uvm_analysis_imp_decl(_act_mon)
+  `uvm_analysis_imp_decl(_pass_mon)
 class evm_scb extends uvm_scoreboard;
   `uvm_component_utils(evm_scb)
-  `uvm_analysis_imp_decl(act_mon)
-  `uvm_analysis_imp_decl(pass_mon)
-
   evm_seq_item expect_q[$];
   evm_seq_item actual_q[$];
 
@@ -68,19 +66,19 @@ class evm_scb extends uvm_scoreboard;
     */
 
     //Vote counter
-    if(ready_flag && !candidate_ready && act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
+    if(ready_flag && !act_item.candidate_ready && act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
       counter1 ++;
       ready_flag = 0;
     end
-    else if(ready_flag && !candidate_ready && ~act_item.vote_candidate_1 && act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
+    else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
       counter2 ++;
       ready_flag = 0;
     end
-    else if(ready_flag && !candidate_ready && ~act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && act_item.vote_candidate_3) begin
+    else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && act_item.vote_candidate_3) begin
       counter3++;
       ready_flag = 0;
     end
-    else if(!switch_on_evm) begin
+    else if(!act_item.switch_on_evm) begin
       counter1 = 0;
       counter2 = 0;
       counter3 = 0;

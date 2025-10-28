@@ -25,8 +25,8 @@ endfunction
 function void connect_phase(uvm_phase phase);
 super.connect_phase(phase);
 
-agt_act.act_mon_h.mon_act_port.connect(scb.item_act_port);
-agt_pass.pas_mon_h.mon_pass_port.connect(scb.item_pass_port);
+agt_act.act_mon_h.mon_act_port.connect(scb.expect_item);
+agt_pass.pas_mon_h.mon_pass_port.connect(scb.actual_item);
 
 agt_act.act_mon_h.mon_act_port.connect(cov.item_act_port);
 agt_pass.pas_mon_h.mon_pass_port.connect(cov.item_pass_port);
