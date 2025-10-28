@@ -45,8 +45,8 @@ compile:
 	@vlog -sv evm_pkg.sv $(FILE)
 
 simulate: compile
- @echo "--- Running Simulation (Verbosity: $(VERBOSITY), Test: $(test)) ---"
- @vsim -c $(TOP) $(VSIM_EXTRA_OPTS) -do "run -all ; quit"
+	@echo "--- Running Simulation (Verbosity: $(VERBOSITY), Test: $(test)) ---"
+	@vsim -c $(TOP) $(VSIM_EXTRA_OPTS) -do "run -all ; quit"
 
 # --- Coverage Targets ---
 cov: 
