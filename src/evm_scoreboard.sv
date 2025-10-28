@@ -1,5 +1,5 @@
-  `uvm_analysis_imp_decl(_act_mon)
-  `uvm_analysis_imp_decl(_pass_mon)
+`uvm_analysis_imp_decl(_act_mon)
+`uvm_analysis_imp_decl(_pass_mon)
 class evm_scb extends uvm_scoreboard;
   `uvm_component_utils(evm_scb)
   evm_seq_item expect_q[$];
@@ -12,7 +12,7 @@ class evm_scb extends uvm_scoreboard;
 
   uvm_analysis_imp_act_mon #(evm_scb, evm_seq_item) expect_item;
   uvm_analysis_imp_pass_mon #(evm_scb, evm_seq_item) actual_item;
- 
+
   function new(string name = "evm_scb", uvm_component parent);
     super.new(name, parent);
     expect_item = new("expect_item", this);
@@ -52,17 +52,17 @@ class evm_scb extends uvm_scoreboard;
 
     /*if(act_item.candidate_ready || !act_item.voting_process_done)
       exp_item.voting_in_progress = 1;
-    */
+      */
 
 
-    if(act_item.candidate_ready)
-       ready_flag = 1;
+      if(act_item.candidate_ready)
+        ready_flag = 1;
 
     /*    //For voting done
     if(act_item.voting_process_done == 1)
-      exp_item.voting_done = 1;
-    else if(!act_item.switch_on_evm)
-      exp_item.voting_done = 0;
+    exp_item.voting_done = 1;
+      else if(!act_item.switch_on_evm)
+    exp_item.voting_done = 0;
     */
 
     //Vote counter
@@ -112,7 +112,7 @@ class evm_scb extends uvm_scoreboard;
         exp_item.invalid_results == 1;
       else begin
         exp_item.results = vote[2];
-  exp_item.candidate_name = (vote[2] == counter1)?2'b01:((vote[2] == counter2)?2'b10:2'b11);
+        exp_item.candidate_name = (vote[2] == counter1)?2'b01:((vote[2] == counter2)?2'b10:2'b11);
       end
     end
   endtask
@@ -122,21 +122,21 @@ class evm_scb extends uvm_scoreboard;
       `uvm_info("SCB", "THE CANDIDATE NAME MATCHES", UVM_NONE)
     end
     else begin
-     `uvm_info("SCB", "THE CANDIDATE NAME MISSMATCH", UVM_NONE)
+      `uvm_info("SCB", "THE CANDIDATE NAME MISSMATCH", UVM_NONE)
     end
 
     if(actual_output.results == expected_output.results) begin
       `uvm_info("SCB", "THE RESULTS MATCHES", UVM_NONE)
     end
     else begin
-     `uvm_info("SCB", "THE RESULTS MISSMATCH", UVM_NONE)
+      `uvm_info("SCB", "THE RESULTS MISSMATCH", UVM_NONE)
     end
 
     if(actual_output.invalid_results == expected_output.invalid_results) begin
       `uvm_info("SCB", "THE INVALID RESULTS MATCHES", UVM_NONE)
     end
     else begin
-     `uvm_info("SCB", "THE INVALID RESULTS MISSMATCH", UVM_NONE)
+      `uvm_info("SCB", "THE INVALID RESULTS MISSMATCH", UVM_NONE)
     end
 
     if(expected_output.compare(actual_output)) begin
