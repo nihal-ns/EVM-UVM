@@ -91,15 +91,15 @@ class evm_scb extends uvm_scoreboard;
     end
 
     //Display candidate and votes
-    if(act_item.voting_process_done && act_item.display_results == 2'b00) begin
+    if(act_item.voting_session_done && act_item.display_results == 2'b00) begin
       exp_item.candidate_name = 2'b01;
       exp_item.results = counter1;
     end
-    else if(act_item.voting_process_done && act_item.display_results == 2'b01) begin
+    else if(act_item.voting_session_done && act_item.display_results == 2'b01) begin
       exp_item.candidate_name = 2'b10;
       exp_item.results = counter2;
     end
-    else if(act_item.voting_process_done && act_item.display_results == 2'b10) begin
+    else if(act_item.voting_session_done && act_item.display_results == 2'b10) begin
       exp_item.candidate_name = 2'b11;
       exp_item.results = counter3;
     end
@@ -107,7 +107,7 @@ class evm_scb extends uvm_scoreboard;
     //Display winner and vote count
     vote = '{counter1, counter2, counter3};
     vote.sort();
-    if(act_item.voting_process_done && act_item.display_winner) begin
+    if(act_item.voting_session_done && act_item.display_winner) begin
       if(vote[2] == vote[1])
         exp_item.invalid_results == 1;
       else begin
