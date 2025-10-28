@@ -1,4 +1,4 @@
-class evm_driver extends uvm_driver;
+class evm_driver extends uvm_driver#(evm_seq_item);
         `uvm_component_utils(evm_driver)
 
         virtual evm_interface vif;
