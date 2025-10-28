@@ -7,6 +7,7 @@ class evm_scb extends uvm_scoreboard;
 
   static bit [7:0] counter1, counter2, counter3;
 
+  static int pass_count, fail_count;
   bit [7:0] vote[3];
   bit ready_flag;
 
@@ -28,9 +29,9 @@ class evm_scb extends uvm_scoreboard;
   endfunction
 
   task run_phase(uvm_phase phase);
-    evm_seq_item scb_act_item;
-    evm_seq_item scb_pass_item;
-    evm_seq_item scb_expect_item;
+    evm_seq_item scb_act_item = evm_seq_item::type_id::create("scb_act_item");
+    evm_seq_item scb_pass_item = evm_seq_item::type_id::create("scb_pass_item");
+    evm_seq_item scb_expect_item = evm_seq_item::type_id::create("scb_expect_item");
 
     forever begin
       fork
@@ -48,22 +49,10 @@ class evm_scb extends uvm_scoreboard;
     end
   endtask
 
-  task compute_expect_result(input evm_seq_item act_item, output evm_seq_item exp_item);
-
-    /*if(act_item.candidate_ready || !act_item.voting_process_done)
-      exp_item.voting_in_progress = 1;
-      */
-
+  task compute_expect_result(input evm_seq_item act_item, ref evm_seq_item exp_item);
 
       if(act_item.candidate_ready)
         ready_flag = 1;
-
-    /*    //For voting done
-    if(act_item.voting_process_done == 1)
-    exp_item.voting_done = 1;
-      else if(!act_item.switch_on_evm)
-    exp_item.voting_done = 0;
-    */
 
     //Vote counter
     if(ready_flag && !act_item.candidate_ready && act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
@@ -113,38 +102,48 @@ class evm_scb extends uvm_scoreboard;
       else begin
         exp_item.results = vote[2];
         exp_item.candidate_name = (vote[2] == counter1)?2'b01:((vote[2] == counter2)?2'b10:2'b11);
+        exp_item.invalid_results = 0;
       end
     end
   endtask
 
-  task compare_exp_actual (input evm_seq_item actual_output, input evm_seq_item expected_output);
-    if(actual_output.candidate_name == expected_output.candidate_name) begin
-      `uvm_info("SCB", "THE CANDIDATE NAME MATCHES", UVM_NONE)
-    end
-    else begin
-      `uvm_info("SCB", "THE CANDIDATE NAME MISSMATCH", UVM_NONE)
-    end
+  task compare_exp_actual (input evm_seq_item actual_output, evm_seq_item expected_output);
+    if( actual_output.voting_done) begin 
+      if(actual_output.candidate_name == expected_output.candidate_name) begin
+        `uvm_info("SCB", $sformatf("THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : %0d | EXPECTED CANDIDATE : %0d",actual_output.candidate_name, expected_output.candidate_name ), UVM_NONE)
+      end
+      else begin
+        `uvm_info("SCB", $sformatf("THE CANDIDATE NAME MISSMATCH | ACTUAL CANDIDATE : %0d | EXPECTED CANDIDATE : %0d",actual_output.candidate_name, expected_output.candidate_name ), UVM_NONE)
+      end
 
-    if(actual_output.results == expected_output.results) begin
-      `uvm_info("SCB", "THE RESULTS MATCHES", UVM_NONE)
-    end
-    else begin
-      `uvm_info("SCB", "THE RESULTS MISSMATCH", UVM_NONE)
-    end
+      if(actual_output.results == expected_output.results) begin
+        `uvm_info("SCB", $sformatf("THE RESULTS MATCHE | ACTUAL RESULT : %0d | EXPECTED RESULT : %0d",actual_output.results, expected_output.results), UVM_NONE)
+      end
+      else begin
+        `uvm_info("SCB", $sformatf("THE RESULTS MISSMATCH | ACTUAL RESULT : %0d | EXPECTED RESULT : %0d",actual_output.results, expected_output.results), UVM_NONE)
+      end
 
-    if(actual_output.invalid_results == expected_output.invalid_results) begin
-      `uvm_info("SCB", "THE INVALID RESULTS MATCHES", UVM_NONE)
-    end
-    else begin
-      `uvm_info("SCB", "THE INVALID RESULTS MISSMATCH", UVM_NONE)
-    end
+      if(actual_output.invalid_results == expected_output.invalid_results) begin
+        `uvm_info("SCB", $sformatf("THE INVALID RESULTS MATCH | ACTUAL INVALID RESULT :%0d | EXPECTED INVALID RESULT : %0d", actual_output.invalid_results, expected_output.invalid_results), UVM_NONE)
+      end
+      else begin
+        `uvm_info("SCB", $sformatf("THE INVALID RESULTS MISSMATCH | ACTUAL INVALID RESULT :%0d | EXPECTED INVALID RESULT : %0d", actual_output.invalid_results, expected_output.invalid_results), UVM_NONE)
+      end
 
-    if(expected_output.compare(actual_output)) begin
-      `uvm_info("SCB", "MATCHED", UVM_NONE)
+      if(actual_output.candidate_name == expected_output.candidate_name && actual_output.results == expected_output.results && actual_output.invalid_results == expected_output.invalid_results) begin
+        pass_count ++;
+        `uvm_info("SCB", "MATCHED", UVM_NONE)
+      end
+      else begin
+        fail_count ++;
+        `uvm_info("SCB", "MISSMATCH", UVM_NONE)
+      end
     end
-    else begin
-      `uvm_info("SCB", "MISSMATCH", UVM_NONE)
-    end
+    $display("\n========================================================================================\n");
   endtask
-
+  
+  task report_phase(uvm_phase phase);
+    `uvm_info("SCB", $sformatf("||| TOTAL MATCHES     : %0d |||", pass_count), UVM_NONE)
+    `uvm_info("SCB", $sformatf("||| TOTAL MISSMATCHES : %0d |||", fail_count), UVM_NONE)
+  endtask
 endclass
