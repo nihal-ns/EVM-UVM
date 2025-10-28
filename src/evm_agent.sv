@@ -1,10 +1,13 @@
+////////////////////////////////////
+/////////// Active Agent
+///////////////////////////////////////
+
 class evm_agent_active extends uvm_agent;
  `uvm_component_utils(evm_agent_active)
 
  evm_driver drv_h;
  evm_sequencer sqr_h;
  evm_monitor_act act_mon_h;
- evm_monitor_pass pas_mon_h;
  
  function new(string name = "evm_agent_active", uvm_component parent = null);
   super.new(name, parent);
@@ -13,13 +16,13 @@ class evm_agent_active extends uvm_agent;
  function void build_phase(uvm_phase phase);
   super.build_phase(phase);
   if(!uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active))
-	  `uvm_error(" ERROR IN ACTIVE AGENT ")
+	  `uvm_error(get_full_name, $sformatf(" ERROR IN ACTIVE AGENT "))
 
-  act_mon_h = evm_monitor_act::type_id::create("act_mon_h", this);
   if(get_is_active() == UVM_ACTIVE) begin
    drv_h = evm_driver::type_id::create("drv_h", this);
    sqr_h = evm_sequencer::type_id::create("sqr_h", this);
   end
+  act_mon_h = evm_monitor_act::type_id::create("act_mon_h", this);
   
  endfunction: build_phase
 
@@ -35,7 +38,7 @@ endclass: evm_agent_active
 
 ////////////////////////////////////
 ///////// Passive Agent
-/////////////////////////////////////
+////////////////////////////////////
 class evm_agent_passive extends uvm_agent;
  `uvm_component_utils(evm_agent_passive)
 
@@ -48,7 +51,7 @@ class evm_agent_passive extends uvm_agent;
  function void build_phase(uvm_phase phase);
   super.build_phase(phase);
   if(!uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active))
-	  `uvm_error(" ERROR IN PASSIVE AGENT ")
+	  `uvm_error(get_full_name(), $sformatf(" ERROR IN PASSIVE AGENT "))
   
    /*if(get_is_active() == UVM_PASSIVE) begin */
    pas_mon_h = evm_monitor_pass::type_id::create("pas_mon_h", this);
