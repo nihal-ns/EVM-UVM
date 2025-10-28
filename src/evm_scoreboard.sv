@@ -11,7 +11,7 @@ class evm_scb extends uvm_scoreboard;
   bit ready_flag;
 
   uvm_analysis_imp_act_mon #(evm_seq_item, evm_scb) expect_item;
-  uvm_analysis_imp_pass_mon #(evm_seq_itemi, evm_scb) actual_item;
+  uvm_analysis_imp_pass_mon #(evm_seq_item, evm_scb) actual_item;
 
   function new(string name = "evm_scb", uvm_component parent);
     super.new(name, parent);
