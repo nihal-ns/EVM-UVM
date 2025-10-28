@@ -94,7 +94,7 @@ class evm_tie_min_sequence extends uvm_sequence #(evm_seq_item);
 		end
 		repeat(10)
 		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.ote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 1; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
 		repeat(11)
