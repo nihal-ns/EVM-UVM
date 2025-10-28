@@ -108,7 +108,9 @@ class evm_scb extends uvm_scoreboard;
   endtask
 
   task compare_exp_actual (input evm_seq_item actual_output, evm_seq_item expected_output);
-    if( actual_output.voting_done) begin 
+    if( actual_output.voting_done) begin
+      `uvm_info("SCB", $sformatf("VOTE COUNT | C1 VOTES: %0d | C2 VOTES: %0d | C3 VOTES: %0d",counter1, counter2, counter3 ), UVM_NONE)
+
       if(actual_output.candidate_name == expected_output.candidate_name) begin
         `uvm_info("SCB", $sformatf("THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : %0d | EXPECTED CANDIDATE : %0d",actual_output.candidate_name, expected_output.candidate_name ), UVM_NONE)
       end
@@ -142,8 +144,10 @@ class evm_scb extends uvm_scoreboard;
     $display("\n========================================================================================\n");
   endtask
   
-  task report_phase(uvm_phase phase);
+  function void report_phase(uvm_phase phase);
+    super.report_phase(phase);
     `uvm_info("SCB", $sformatf("||| TOTAL MATCHES     : %0d |||", pass_count), UVM_NONE)
     `uvm_info("SCB", $sformatf("||| TOTAL MISSMATCHES : %0d |||", fail_count), UVM_NONE)
-  endtask
+  endfunction
+
 endclass
