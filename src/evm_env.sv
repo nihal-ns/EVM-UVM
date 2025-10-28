@@ -28,8 +28,8 @@ class evm_env extends uvm_env;
     agt_act.act_mon_h.mon_act_port.connect(scb.expect_item);
     agt_pass.pas_mon_h.mon_pass_port.connect(scb.actual_item);
 
-    agt_act.act_mon_h.mon_act_port.connect(cov.item_act_port);
-    agt_pass.pas_mon_h.mon_pass_port.connect(cov.item_pass_port);
+    agt_act.act_mon_h.mon_act_port.connect(cov.mon_act_cg_port);
+    agt_pass.pas_mon_h.mon_pass_port.connect(cov.mon_pass_cg_port);
 
   endfunction
 endclass
