@@ -31,7 +31,7 @@ class evm_monitor_act extends uvm_monitor;
 			item.display_results = vif.display_results; 
 			item.display_winner = vif.display_winner;
 			mon_act_port.write(item);
-			`uvm_info(get_type_name(), $sformatf("monitor active: switch on:%0b | ready:%0b | candidate:%0d | session done:%0b | results:%0d | winner :%0d", item.switch_on_evm, item.candidate_ready, {item.vote_candidate_1,item.vote_candidate_2,item.vote_candidate_3}, item.voting_session_done, item.display_results, item.display_winner), UVM_LOW)
+			`uvm_info(get_type_name(), $sformatf("monitor active: switch on:%0b | ready:%0b | candidate:%0d | session done:%0b | results:%0d | winner :%0d", item.switch_on_evm, item.candidate_ready, {item.vote_candidate_3,item.vote_candidate_2,item.vote_candidate_1}, item.voting_session_done, item.display_results, item.display_winner), UVM_LOW)
 		end
 	endtask: run_phase	
 
@@ -43,7 +43,7 @@ endclass: evm_monitor_act
 class evm_monitor_pass extends uvm_monitor; 
 	`uvm_component_utils(evm_monitor_pass)   
 
-	virtual evm_interfacef vif;             
+	virtual evm_interface vif;             
 	uvm_analysis_port #(evm_seq_item) mon_pass_port;      
 
 	function new(string name = "Evm_monitor_pass", uvm_component parent);     
@@ -67,7 +67,7 @@ class evm_monitor_pass extends uvm_monitor;
 			item.voting_in_progress = vif.voting_in_progress;
 			item.voting_done = vif.voting_done; 
 			mon_pass_port.write(item);
-			`uvm_info(get_type_name(), $sformatf("monitor passive: cadidate:%0d | invalid:%0b | results:%0d | progess:%0b | done:%0b", item.cadidate_name, item.invalid_results, item.results, item.voting_in_progress, item.voting_done), UVM_LOW)
+			`uvm_info(get_type_name(), $sformatf("monitor passive: candidate:%0d | invalid:%0b | results:%0d | progess:%0b | done:%0b", item.candidate_name, item.invalid_results, item.results, item.voting_in_progress, item.voting_done), UVM_LOW)
 		end
 	endtask: run_phase	
 
