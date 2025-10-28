@@ -21,22 +21,22 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 
 	// isunknown check for inputs
 	property pro2_1;
-		@(posedge clk) disable iff(!rst) ($isunknown({vote_candidate_1, vote_candidate_2, vote_candidate_3, switch_on_evm, candidate_ready, voting_session_done, display_results, display_winner})); 
+		@(posedge clk) disable iff(!rst) !($isunknown({vote_candidate_1, vote_candidate_2, vote_candidate_3, switch_on_evm, candidate_ready, voting_session_done, display_results, display_winner})); 
 	endproperty	
 
 	// isunknown check for outputs
 	property pro2_2;
-		@(posedge clk) disable iff(!rst) ($isunknown({candidate_name, invalid_results, results, voting_in_progress, voting_done}));
+		@(posedge clk) disable iff(!rst) !($isunknown({candidate_name, invalid_results, results, voting_in_progress, voting_done}));
 	endproperty
 
 	// voting in progress check
 	property pro3;
-		@(posedge clk) disable iff (!rst) candidate_ready |=> voting_in_progress until voting_done; // should check again
+		@(posedge clk) disable iff (!rst) candidate_ready |=> voting_in_progress until ($countones({vote_candidate_1,vote_candidate_2,vote_candidate_3}) == 1) |=> !voting_in_progress; // should check again
 	endproperty
 
 	// voting done check
 	property pro4; 
-		@(posedge clk) disable iff (!rst) voting_session_done |=> voting_done; 
+		@(posedge clk) disable iff (!rst) voting_session_done |=> voting_done until !switch_on_evm |=> !voting_done; 
 	endproperty
 
 	// display result check
@@ -67,7 +67,7 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 	progress_check: assert property(pro3)
 		/* $info("Assertion passed, progress is proper"); */
 	else
-		$error("Assertion failed, voting_in_progress did not stay high until voting_done")
+		$error("Assertion failed, voting_in_progress did not stay high until voting_done");
 
 	voting_done_check: assert property(pro4)
 		/* $info("Assertion passed, voting done transaction is proper"); */
