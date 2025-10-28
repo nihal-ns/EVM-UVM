@@ -1,21 +1,28 @@
- `uvm_analysis_imp_decl(_mon_act_cg)
-class Evm_subscriber extends uvm_subscriber#(evm_seq_item);
-  `uvm_component_utils(Evm_subscriber)
-  
-  uvm_analysis_imp_mon_input_cg#(evm_seq_item, Evm_subscriber) mon_act_cg_port;
-  uvm_analysis_imp#(evm_seq_item, Evm_subscriber) mon_pass_cg_port;
+`uvm_analysis_imp_decl(_mon_input_cg)
 
-	evm_seq_item mon_input_seq, mon_output_seq;
+class evm_subscriber extends uvm_subscriber#(evm_seq_item);
+  `uvm_component_utils(evm_subscriber)
 
+  uvm_analysis_imp_mon_input_cg#(evm_seq_item, evm_subscriber) mon_act_cg_port;
+  uvm_analysis_imp#(evm_seq_item, evm_subscriber) mon_pass_cg_port;
+
+  evm_seq_item mon_input_seq, mon_output_seq;
   real input_cov, output_cov;
 
- 
   covergroup input_cvg;
-    
-    vote_candidate: coverpoint mon_input_seq.vote_candidate {
-      bins candidate_1 = {0};
-      bins candidate_2 = {1};
-      bins candidate_3 = {2};
+    vote_candidate_1: coverpoint mon_input_seq.vote_candidate_1 {
+      bins vote_0 = {0};
+      bins vote_1 = {1};
+    }
+
+    vote_candidate_2: coverpoint mon_input_seq.vote_candidate_2 {
+      bins vote_0 = {0};
+      bins vote_1 = {1};
+    }
+
+    vote_candidate_3: coverpoint mon_input_seq.vote_candidate_3 {
+      bins vote_0 = {0};
+      bins vote_1 = {1};
     }
 
     switch_on_evm_cp: coverpoint mon_input_seq.switch_on_evm {
@@ -34,23 +41,21 @@ class Evm_subscriber extends uvm_subscriber#(evm_seq_item);
     }
 
     display_results_cp: coverpoint mon_input_seq.display_results {
-      bins off = {0};
-      bins on  = {1};
+      bins candidate_1 = {2'b00};
+      bins candidate_2 = {2'b01};
+      bins candidate_3 = {2'b10};
     }
 
     display_winner_cp: coverpoint mon_input_seq.display_winner {
       bins off = {0};
       bins on  = {1};
     }
-
   endgroup : input_cvg
 
   covergroup output_cvg;
-
-   
     candidate_name_cp: coverpoint mon_output_seq.candidate_name {
       bins candidate_1 = {2'b01};
-	  bins candidate_2 = {2'b10};
+      bins candidate_2 = {2'b10};
       bins candidate_3 = {2'b11};
     }
 
@@ -59,7 +64,6 @@ class Evm_subscriber extends uvm_subscriber#(evm_seq_item);
       bins invalid = {1};
     }
 
-    
     results_cp: coverpoint mon_output_seq.results {
       bins result_low  = {[0:31]};
       bins result_mid  = {[32:63]};
@@ -71,16 +75,14 @@ class Evm_subscriber extends uvm_subscriber#(evm_seq_item);
       bins yes = {1};
     }
 
-    
     voting_done_cp: coverpoint mon_output_seq.voting_done {
       bins not_done = {0};
       bins done     = {1};
     }
-
   endgroup : output_cvg
 
-  
-  function new(string name = "Evm_subscriber", uvm_component parent);
+
+  function new(string name = "evm_subscriber", uvm_component parent);
     super.new(name, parent);
     input_cvg = new;
     output_cvg = new;
@@ -88,17 +90,17 @@ class Evm_subscriber extends uvm_subscriber#(evm_seq_item);
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    mon_input_cg_port  = new("mon_input_cg_port", this);
-    mon_output_cg_port = new("mon_output_cg_port", this);
+    mon_act_cg_port  = new("mon_act_cg_port", this);
+    mon_pass_cg_port = new("mon_pass_cg_port", this);
   endfunction
 
-  function void write_mon_input_cg(Evm_seq_item t);
+  function void write_mon_input_cg(evm_seq_item t);
     mon_input_seq = t;
     input_cvg.sample();
   endfunction
 
- 
-  function void write(Evm_seq_item t);
+
+  function void write(evm_seq_item t);
     mon_output_seq = t;
     output_cvg.sample();
   endfunction
