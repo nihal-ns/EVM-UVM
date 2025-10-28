@@ -7,7 +7,7 @@ class evm_scb extends uvm_scoreboard;
 
   static bit [7:0] counter1, counter2, counter3;
 
-  bit [7:0] votes[int];
+  bit [7:0] vote[3];
   bit ready_flag;
 
   uvm_analysis_imp_act_mon #(evm_scb, evm_seq_item) expect_item;
@@ -109,7 +109,7 @@ class evm_scb extends uvm_scoreboard;
     vote.sort();
     if(act_item.voting_session_done && act_item.display_winner) begin
       if(vote[2] == vote[1])
-        exp_item.invalid_results == 1;
+        exp_item.invalid_results = 1;
       else begin
         exp_item.results = vote[2];
         exp_item.candidate_name = (vote[2] == counter1)?2'b01:((vote[2] == counter2)?2'b10:2'b11);
