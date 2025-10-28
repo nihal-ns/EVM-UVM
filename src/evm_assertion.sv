@@ -21,12 +21,12 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 
 	// isunknown check for inputs
 	property pro2_1;
-		@(posedge clk) disable iff(!rst) |-> ($isunknown({vote_candidate_1, vote_candidate_2, vote_candidate_3, switch_on_evm, candidate_ready, voting_session_done, display_results, display_winner})); 
+		@(posedge clk) disable iff(!rst) ($isunknown({vote_candidate_1, vote_candidate_2, vote_candidate_3, switch_on_evm, candidate_ready, voting_session_done, display_results, display_winner})); 
 	endproperty	
 
 	// isunknown check for outputs
 	property pro2_2;
-		@(posedge clk) disable iff(!rst) |-> ($isunknown({candidate_name, invalid_results, results, voting_in_progress, voting_done}));
+		@(posedge clk) disable iff(!rst) ($isunknown({candidate_name, invalid_results, results, voting_in_progress, voting_done}));
 	endproperty
 
 	// voting in progress check
