@@ -12,8 +12,9 @@ class evm_agent_active extends uvm_agent;
 
  function void build_phase(uvm_phase phase);
   super.build_phase(phase);
-  uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active);
-  
+  if(!uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active))
+	  `uvm_error(" ERROR IN ACTIVE AGENT ")
+
   act_mon_h = evm_monitor_act::type_id::create("act_mon_h", this);
   if(get_is_active() == UVM_ACTIVE) begin
    drv_h = evm_driver::type_id::create("drv_h", this);
@@ -46,7 +47,8 @@ class evm_agent_passive extends uvm_agent;
 
  function void build_phase(uvm_phase phase);
   super.build_phase(phase);
-  uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active);
+  if(!uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active))
+	  `uvm_error(" ERROR IN PASSIVE AGENT ")
   
    /*if(get_is_active() == UVM_PASSIVE) begin */
    pas_mon_h = evm_monitor_pass::type_id::create("pas_mon_h", this);
