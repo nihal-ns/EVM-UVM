@@ -1,6 +1,4 @@
-interface evm_interface( clk,rst);
-	logic clk;
-	logic rst;
+interface evm_interface(input bit clk,rst);
 	logic vote_candidate_1;
 	logic vote_candidate_2;
 	logic vote_candidate_3;
@@ -17,8 +15,7 @@ interface evm_interface( clk,rst);
 	logic voting_done;
 
 	clocking drv_cb @(posedge clk);
-		 output rst,
-		 vote_candidate_1,
+		 output vote_candidate_1,
 		 vote_candidate_2,
 		 vote_candidate_3,
 		 switch_on_evm,         
@@ -26,11 +23,10 @@ interface evm_interface( clk,rst);
 		 voting_session_done,
 		 display_results,
 		 display_winner;
-	endclocking
+	endclocking: drv_cb
 
 	clocking mon_cb @(posedge clk);
-		 input rst,
-		 vote_candidate_1,
+		 input vote_candidate_1,
 		 vote_candidate_2,
 		 vote_candidate_3,
 		 switch_on_evm,         
@@ -44,7 +40,7 @@ interface evm_interface( clk,rst);
 		 results,
 		 voting_in_progress,
 		 voting_done;
-	endclocking
+	endclocking: mon_cb
 	
 	modport drv_mod(clocking drv_cb);
 	modport mon_mod(clocking mon_cb);
