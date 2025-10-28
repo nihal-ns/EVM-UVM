@@ -12,7 +12,7 @@ class evm_agent_active extends uvm_agent;
 
  function void build_phase(uvm_phase phase);
   super.build_phase(phase);
-  uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", active);
+  uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active);
   
   act_mon_h = evm_monitor_act::type_id::create("act_mon_h", this);
   if(get_is_active() == UVM_ACTIVE) begin
@@ -46,7 +46,7 @@ class evm_agent_passive extends uvm_agent;
 
  function void build_phase(uvm_phase phase);
   super.build_phase(phase);
-  uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", UVM_PASSIVE);
+  uvm_config_db#(uvm_active_passive_enum)::get(this,"", "is_active", is_active);
   
    /*if(get_is_active() == UVM_PASSIVE) begin */
    pas_mon_h = evm_monitor_pass::type_id::create("pas_mon_h", this);
