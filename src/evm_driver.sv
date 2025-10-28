@@ -21,22 +21,24 @@ class evm_driver extends uvm_driver#(evm_seq_item);
                 end
         endtask: run_phase
 
-        task drive_to_dut;
-                vif.switch_on_evm    <= req.switch_on_evm;
-                vif.candidate_ready  <= req.candidate_ready;
-                vif.vote_candidate_1 <= req.vote_candidate_1;
-                vif.vote_candidate_2 <= req.vote_candidate_2;
-                vif.vote_candidate_3 <= req.vote_candidate_3;
+	task drive_to_dut;
+		vif.switch_on_evm    <= req.switch_on_evm;
+		vif.candidate_ready  <= req.candidate_ready;
+		vif.vote_candidate_1 <= req.vote_candidate_1;
+		vif.vote_candidate_2 <= req.vote_candidate_2;
+		vif.vote_candidate_3 <= req.vote_candidate_3;
 
-                vif.voting_session_done <= req.voting_session_done;
-                vif.display_results     <= req.display_results;
-                vif.display_winner      <= req.display_winner;
-                $display("");
+		vif.voting_session_done <= req.voting_session_done;
+		vif.display_results     <= req.display_results;
+		vif.display_winner      <= req.display_winner;
+
+		$display("");
 		`uvm_info(" DRV ", $sformatf("\nswitch_on_evm = %0d | candidate_ready = %0d | candidate_1 = %0d | candidate_2 = %0d | candidate_3 = %0d \n", req.switch_on_evm, req.candidate_ready, req.vote_candidate_1, req.vote_candidate_2, req.vote_candidate_3), UVM_LOW)
+
 		`uvm_info(" DRV ", $sformatf("\nvoting_session_done = %0d | display_results = %0d | display_winner = %0d \n", req.voting_session_done, req.display_results, req.display_winner), UVM_LOW);
 
-                @(vif.drv_cb);
-        endtask: drive_to_dut
+		@(vif.drv_cb);
+	endtask: drive_to_dut
 
 endclass: evm_driver
 
