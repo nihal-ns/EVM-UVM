@@ -14,6 +14,7 @@ class evm_driver extends uvm_driver#(evm_seq_item);
 	endfunction: build_phase
 
 	virtual task run_phase(uvm_phase phase);
+		repeat(2)@(vif.drv_cb);
 		forever begin
 			seq_item_port.get_next_item(req);
 			drive_to_dut();
