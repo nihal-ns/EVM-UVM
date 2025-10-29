@@ -531,8 +531,8 @@ class evm_timeout2_sequence extends uvm_sequence #(evm_seq_item);
 endclass: evm_timeout2_sequence
 //-----------------------------------------------------------------------------------------------------------------------------
 // Regression Sequence
-class regresssion_sequence extends uvm_sequence #(evm_seq_item);
-	`uvm_object_utils(regresssion_sequence)
+class regression_sequence extends uvm_sequence #(evm_seq_item);
+	`uvm_object_utils(regression_sequence)
 	
 	evm_c1_win_sequence evm_c1_win_sequence;
 	evm_rand_win_sequence evm_rand_win_sequence;
@@ -549,7 +549,7 @@ class regresssion_sequence extends uvm_sequence #(evm_seq_item);
 	evm_counter_overflow_sequence evm_counter_overflow_sequence;
 	evm_timeout2_sequence evm_timeout2_sequence;		
 
-	function new(string name = "regresssion_sequence");
+	function new(string name = "regression_sequence");
 		super.new(name);
 	endfunction: new
 
