@@ -213,8 +213,6 @@ class evm_before_ready_sequence extends uvm_sequence #(evm_seq_item);
 
 	virtual task body();
 		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 
 		repeat(7)
 		begin
@@ -238,8 +236,6 @@ class evm_default_result_sequence extends uvm_sequence #(evm_seq_item);
 
 	virtual task body();
 		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
-		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		repeat(25)
 		begin
 			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
@@ -249,3 +245,51 @@ class evm_default_result_sequence extends uvm_sequence #(evm_seq_item);
 	endtask: body
 endclass: evm_default_result_sequence
 //-----------------------------------------------------------------------------------------------------------------------------
+// Timeout check
+class evm_timeout_sequence extends uvm_sequence #(evm_seq_item);
+	`uvm_object_utils(evm_timeout_sequence)
+
+	function new(string name = "evm_timeout_sequence");
+		super.new(name);
+	endfunction: new
+
+	virtual task body();
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+
+		repeat(15)
+		begin
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} inside {1, 2, 4}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+		end
+		repeat(15)  // Yet to calculate
+		begin
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+		end
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;});
+
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;});
+	endtask: body
+endclass: evm_timeout_sequence
+//-----------------------------------------------------------------------------------------------------------------------------
+// To wait for candidate state loop condition
+class evm_wait_candidate_sequence extends uvm_sequence #(evm_seq_item);
+	`uvm_object_utils(evm_wait_candidate_sequence)
+
+	function new(string name = "evm_wait_candidate_sequence");
+		super.new(name);
+	endfunction: new
+
+	virtual task body();
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+
+		repeat(15)
+		begin
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 1; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} inside {1, 2, 4}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 1;});
+		end
+
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 1;});
+	endtask: body
+endclass: evm_wait_candidate_sequence
