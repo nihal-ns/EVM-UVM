@@ -314,4 +314,4 @@ class wait_candidate_loop_test extends evm_test;
 	virtual function void end_of_elaboration();
 		print();
 	endfunction: end_of_elaboration
-endclass: wait_candidate_loop__test
+endclass: wait_candidate_loop_test
