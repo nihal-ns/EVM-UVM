@@ -529,3 +529,44 @@ class evm_timeout2_sequence extends uvm_sequence #(evm_seq_item);
 		`uvm_do(to_voting_process_done_state); 
 	endtask: body
 endclass: evm_timeout2_sequence
+//-----------------------------------------------------------------------------------------------------------------------------
+// Regression Sequence
+class regresssion_sequence extends uvm_sequence #(evm_seq_item);
+	`uvm_object_utils(regresssion_sequence)
+	
+	evm_c1_win_sequence evm_c1_win_sequence;
+	evm_rand_win_sequence evm_rand_win_sequence;
+	evm_tie_max_sequence evm_tie_max_sequence;
+	evm_tie_min_sequence evm_tie_min_sequence;
+	evm_off_sequence evm_off_sequence;
+	evm_sudden_done_sequence evm_sudden_done_sequence;
+	evm_count_cast_sequence evm_count_cast_sequence;
+	evm_double_cast_sequence evm_double_cast_sequence;
+	evm_before_ready_sequence evm_before_ready_sequence;
+	evm_default_result_sequence evm_default_result_sequence;
+	evm_timeout_sequence evm_timeout_sequence;
+	evm_wait_candidate_sequence evm_wait_candidate_sequence;
+	evm_counter_overflow_sequence evm_counter_overflow_sequence;
+	evm_timeout2_sequence evm_timeout2_sequence;		
+
+	function new(string name = "regresssion_sequence");
+		super.new(name);
+	endfunction: new
+
+	virtual task body();
+		`uvm_do(evm_c1_win_sequence);
+		`uvm_do(evm_rand_win_sequence);
+		`uvm_do(evm_tie_max_sequence);
+		`uvm_do(evm_tie_min_sequence);
+		`uvm_do(evm_off_sequence);
+		`uvm_do(evm_sudden_done_sequence);
+		`uvm_do(evm_count_cast_sequence);
+		`uvm_do(evm_double_cast_sequence);
+		`uvm_do(evm_before_ready_sequence);
+		`uvm_do(evm_default_result_sequence);
+		`uvm_do(evm_timeout_sequence);
+		`uvm_do(evm_wait_candidate_sequence);
+		`uvm_do(evm_counter_overflow_sequence);
+		`uvm_do(evm_timeout2_sequence);
+	endtask: body
+endclass: regression_sequence

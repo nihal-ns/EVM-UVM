@@ -365,3 +365,28 @@ class timeout2_test extends evm_test;
 		print();
 	endfunction: end_of_elaboration
 endclass: timeout2_test
+
+//----------------------------------------------------------------------------------------------------------------------
+
+class regression_test extends evm_test;
+	`uvm_component_utils(regression_test)
+
+	function new(string name = "regression_test", uvm_component parent = null);
+		super.new(name, parent);
+	endfunction: new
+
+	virtual task run_phase(uvm_phase phase);
+		regression_sequence seq;
+		super.run_phase(phase);
+		phase.raise_objection(this, "Objection Raised");
+		phase.phase_done.set_drain_time(this, 20ns);
+			seq = regression_sequence::type_id::create("seq");	
+			seq.start(env.agt_act.sqr_h);
+		phase.drop_objection(this, "Objection Dropped");
+		$display("############################################################################################################################");
+	endtask: run_phase
+
+	virtual function void end_of_elaboration();
+		print();
+	endfunction: end_of_elaboration
+endclass: regression_test
