@@ -57,6 +57,19 @@ class to_voting_process_done_state extends uvm_sequence #(evm_seq_item);
 	endtask: body
 endclass: to_voting_process_done_state
 //-----------------------------------------------------------------------------------------------------------------------------
+// Turn off machine
+class turn_off_machine extends uvm_sequence #(evm_seq_item);
+	`uvm_object_utils(turn_off_machine)
+
+	function new(string name = "turn_off_machine");
+		super.new(name);
+	endfunction: new
+
+	virtual task body();
+		`uvm_do_with(req,{req.switch_on_evm == 0;});
+	endtask: body
+endclass: turn_off_machine
+//-----------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------Voting sequences-----------------------------------------------------
 // random candidate wins
 class random_candidate_win extends uvm_sequence #(evm_seq_item);
@@ -72,17 +85,17 @@ class random_candidate_win extends uvm_sequence #(evm_seq_item);
 endclass: random_candidate_win
 //-----------------------------------------------------------------------------------------------------------------------------
 //  candidate 3 wins dist
-class candidate3dist_win extends uvm_sequence #(evm_seq_item);
-	`uvm_object_utils(candidate3dist_win)
+class candidate1dist_win extends uvm_sequence #(evm_seq_item);
+	`uvm_object_utils(candidate1dist_win)
 
-	function new(string name = "candidate3dist_win");
+	function new(string name = "candidate1dist_win");
 		super.new(name);
 	endfunction: new
 
 	virtual task body();
 			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} dist {1:=6, 2:=3, 4:=1}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 	endtask: body
-endclass: candidate3dist_win
+endclass: candidate1dist_win
 //-----------------------------------------------------------------------------------------------------------------------------
 //  candidate 1 wins
 class candidate1_win extends uvm_sequence #(evm_seq_item);
@@ -145,7 +158,7 @@ class evm_c1_win_sequence extends uvm_sequence #(evm_seq_item);
 
 	to_waiting_candidate_state to_waiting_for_candidate_state;
 	waiting_candidate_2_waiting_vote_state_sequence waiting_candidate_2_waiting_vote;
-	candidate3dist_win candidate3_win;
+	candidate1dist_win candidate1dist_win;
 	to_voting_process_done_state to_voting_process_done_state;
 
 	function new(string name = "evm_c1_win_sequence");
@@ -157,7 +170,7 @@ class evm_c1_win_sequence extends uvm_sequence #(evm_seq_item);
 		repeat(20)
 		begin
 			`uvm_do(waiting_candidate_2_waiting_vote);
-			`uvm_do(candidate3_win);
+			`uvm_do(candidate1dist_win);
 		end
 		`uvm_do(to_waiting_for_candidate_state); 
 		`uvm_do(to_voting_process_done_state); 
@@ -388,6 +401,10 @@ class evm_before_ready_sequence extends uvm_sequence #(evm_seq_item);
 		end
 		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} inside {1, 2, 4}; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		`uvm_do(to_voting_process_done_state); 
+
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;});
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 1; req.display_winner == 0;});
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 2; req.display_winner == 0;});
 	endtask: body
 
 endclass: evm_before_ready_sequence
@@ -431,7 +448,7 @@ class evm_timeout_sequence extends uvm_sequence #(evm_seq_item);
 
 	virtual task body();
 		`uvm_do(to_waiting_for_candidate_state);
-		repeat(15)
+		repeat(16)
 		begin
 			`uvm_do(waiting_candidate_2_waiting_vote);
 			`uvm_do(random_candidate_win);
@@ -477,8 +494,8 @@ class evm_counter_overflow_sequence extends uvm_sequence #(evm_seq_item);
 
 	to_waiting_candidate_state to_waiting_for_candidate_state;
 	waiting_candidate_2_waiting_vote_state_sequence waiting_candidate_2_waiting_vote;
-	random_candidate_win random_candidate_win;
 	to_voting_process_done_state to_voting_process_done_state;
+	candidate2_win candidate2_win;
 
 	function new(string name = "evm_counter_overflow_sequence");
 		super.new(name);
@@ -489,7 +506,7 @@ class evm_counter_overflow_sequence extends uvm_sequence #(evm_seq_item);
 		repeat(130)
 		begin
 			`uvm_do(waiting_candidate_2_waiting_vote);
-			`uvm_do(random_candidate_win);
+			`uvm_do(candidate2_win);
 		end
 		`uvm_do(to_waiting_for_candidate_state); 
 		`uvm_do(to_voting_process_done_state); 
@@ -511,15 +528,10 @@ class evm_timeout2_sequence extends uvm_sequence #(evm_seq_item);
 
 	virtual task body();
 		`uvm_do(to_waiting_for_candidate_state);
-		repeat(15)
+		repeat(16)
 		begin
 			`uvm_do(waiting_candidate_2_waiting_vote);
 			`uvm_do(random_candidate_win);
-		end
-		`uvm_do(waiting_candidate_2_waiting_vote);
-		repeat(100)
-		begin
-			`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 0; req.display_results == 0; req.display_winner == 0;});
 		end
 		repeat(100)
 		begin
@@ -548,6 +560,7 @@ class regression_sequence extends uvm_sequence #(evm_seq_item);
 	evm_wait_candidate_sequence evm_wait_candidate_sequence;
 	evm_counter_overflow_sequence evm_counter_overflow_sequence;
 	evm_timeout2_sequence evm_timeout2_sequence;		
+	turn_off_machine turn_off_machine;
 
 	function new(string name = "regression_sequence");
 		super.new(name);
@@ -555,18 +568,34 @@ class regression_sequence extends uvm_sequence #(evm_seq_item);
 
 	virtual task body();
 		`uvm_do(evm_c1_win_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_rand_win_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_tie_max_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_tie_min_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_off_sequence);
+	// Here
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_sudden_done_sequence);
+	// Here
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_count_cast_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_double_cast_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_before_ready_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_default_result_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_timeout_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_wait_candidate_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_counter_overflow_sequence);
+		`uvm_do(turn_off_machine);
 		`uvm_do(evm_timeout2_sequence);
+		`uvm_do(turn_off_machine);
 	endtask: body
 endclass: regression_sequence
