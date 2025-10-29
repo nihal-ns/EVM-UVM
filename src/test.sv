@@ -296,7 +296,7 @@ endclass: timeout_test
 class wait_candidate_loop_test extends evm_test;
 	`uvm_component_utils(wait_candidate_loop_test)
 
-	function new(string name = "wait_candidate_loop__test", uvm_component parent = null);
+	function new(string name = "wait_candidate_loop_test", uvm_component parent = null);
 		super.new(name, parent);
 	endfunction: new
 
@@ -315,3 +315,53 @@ class wait_candidate_loop_test extends evm_test;
 		print();
 	endfunction: end_of_elaboration
 endclass: wait_candidate_loop_test
+
+//----------------------------------------------------------------------------------------------------------------------
+
+class counter_overflow_test extends evm_test;
+	`uvm_component_utils(counter_overflow_test)
+
+	function new(string name = "counter_overflow_test", uvm_component parent = null);
+		super.new(name, parent);
+	endfunction: new
+
+	virtual task run_phase(uvm_phase phase);
+		evm_counter_overflow_sequence seq;
+		super.run_phase(phase);
+		phase.raise_objection(this, "Objection Raised");
+		phase.phase_done.set_drain_time(this, 20ns);
+			seq = evm_counter_overflow_sequence::type_id::create("seq");	
+			seq.start(env.agt_act.sqr_h);
+		phase.drop_objection(this, "Objection Dropped");
+		$display("############################################################################################################################");
+	endtask: run_phase
+
+	virtual function void end_of_elaboration();
+		print();
+	endfunction: end_of_elaboration
+endclass: counter_overflow_test
+
+//----------------------------------------------------------------------------------------------------------------------
+
+class timeout2_test extends evm_test;
+	`uvm_component_utils(timeout2_test)
+
+	function new(string name = "timeout2_test", uvm_component parent = null);
+		super.new(name, parent);
+	endfunction: new
+
+	virtual task run_phase(uvm_phase phase);
+		evm_timeout2_sequence seq;
+		super.run_phase(phase);
+		phase.raise_objection(this, "Objection Raised");
+		phase.phase_done.set_drain_time(this, 20ns);
+			seq = evm_timeout2_sequence::type_id::create("seq");	
+			seq.start(env.agt_act.sqr_h);
+		phase.drop_objection(this, "Objection Dropped");
+		$display("############################################################################################################################");
+	endtask: run_phase
+
+	virtual function void end_of_elaboration();
+		print();
+	endfunction: end_of_elaboration
+endclass: timeout2_test
