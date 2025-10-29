@@ -495,7 +495,9 @@ class evm_counter_overflow_sequence extends uvm_sequence #(evm_seq_item);
 	to_waiting_candidate_state to_waiting_for_candidate_state;
 	waiting_candidate_2_waiting_vote_state_sequence waiting_candidate_2_waiting_vote;
 	to_voting_process_done_state to_voting_process_done_state;
+	candidate1_win candidate1_win;
 	candidate2_win candidate2_win;
+	candidate3_win candidate3_win;
 
 	function new(string name = "evm_counter_overflow_sequence");
 		super.new(name);
@@ -503,10 +505,20 @@ class evm_counter_overflow_sequence extends uvm_sequence #(evm_seq_item);
 
 	virtual task body();
 		`uvm_do(to_waiting_for_candidate_state); 
+		repeat(50)
+		begin
+			`uvm_do(waiting_candidate_2_waiting_vote);
+			`uvm_do(candidate1_win);
+		end
 		repeat(130)
 		begin
 			`uvm_do(waiting_candidate_2_waiting_vote);
 			`uvm_do(candidate2_win);
+		end
+		repeat(100)
+		begin
+			`uvm_do(waiting_candidate_2_waiting_vote);
+			`uvm_do(candidate3_win);
 		end
 		`uvm_do(to_waiting_for_candidate_state); 
 		`uvm_do(to_voting_process_done_state); 
