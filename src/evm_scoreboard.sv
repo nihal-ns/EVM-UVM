@@ -6,6 +6,7 @@ class evm_scb extends uvm_scoreboard;
   evm_seq_item actual_q[$];
 
   static bit [7:0] counter1, counter2, counter3;
+  static bit [7:0] candidate_ready_timeout, waiting_for_vote_timeout;
 
   static int pass_count, fail_count;
   bit [7:0] vote[3];
@@ -50,59 +51,98 @@ class evm_scb extends uvm_scoreboard;
   endtask
 
   task compute_expect_result(input evm_seq_item act_item, ref evm_seq_item exp_item);
-
-      if(act_item.candidate_ready)
-        ready_flag = 1;
-
-    //Vote counter
-    if(ready_flag && !act_item.candidate_ready && act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
-      counter1 ++;
-      ready_flag = 0;
-    end
-    else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
-      counter2 ++;
-      ready_flag = 0;
-    end
-    else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && act_item.vote_candidate_3) begin
-      counter3++;
-      ready_flag = 0;
-    end
-    else if(!act_item.switch_on_evm) begin
+    if(!act_item.switch_on_evm) begin
+      exp_item.candidate_name = 0;
+      exp_item.results = 0;
+      exp_item.invalid_results = 0;
       counter1 = 0;
       counter2 = 0;
       counter3 = 0;
-      ready_flag = 0;
+
     end
     else begin
-      counter1 = counter1;
-      counter2 = counter2;
-      counter3 = counter3;
-    end
 
-    //Display candidate and votes
-    if(act_item.voting_session_done && act_item.display_results == 2'b00) begin
-      exp_item.candidate_name = 2'b01;
-      exp_item.results = counter1;
-    end
-    else if(act_item.voting_session_done && act_item.display_results == 2'b01) begin
-      exp_item.candidate_name = 2'b10;
-      exp_item.results = counter2;
-    end
-    else if(act_item.voting_session_done && act_item.display_results == 2'b10) begin
-      exp_item.candidate_name = 2'b11;
-      exp_item.results = counter3;
-    end
+      //Time out condition for the WAITING FOR CANDIDATE
+      if(act_item.candidate_ready) begin
+        candidate_ready_timeout = 0;
+        ready_flag = 1;
+      end
+      else if(act_item.switch_on_evm && !act_item.candidate_ready && !ready_flag) begin
+        candidate_ready_timeout ++;
+      end
 
-    //Display winner and vote count
-    vote = '{counter1, counter2, counter3};
-    vote.sort();
-    if(act_item.voting_session_done && act_item.display_winner) begin
-      if(vote[2] == vote[1])
-        exp_item.invalid_results = 1;
+      //Vote counter
+      if(ready_flag && !act_item.candidate_ready && act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
+        counter1 ++;
+        ready_flag = 0;
+        waiting_for_vote_timeout = 0;
+      end
+      else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
+        counter2 ++;
+        ready_flag = 0;
+        waiting_for_vote_timeout = 0;
+      end
+      else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && act_item.vote_candidate_3) begin
+        counter3++;
+        ready_flag = 0;
+        waiting_for_vote_timeout = 0;
+      end
+      else if(!act_item.switch_on_evm) begin
+        counter1 = 0;
+        counter2 = 0;
+        counter3 = 0;
+        ready_flag = 0;
+      end
+      else if(ready_flag && !act_item.candidate_ready) begin
+       /* counter1 = counter1;
+        counter2 = counter2;
+        counter3 = counter3;*/
+        waiting_for_vote_timeout ++;
+      end
+
+      //Display candidate and votes
+      if(act_item.voting_session_done && act_item.display_results == 2'b00) begin
+        exp_item.candidate_name = 2'b01;
+        exp_item.results = counter1;
+      end
+      else if(act_item.voting_session_done && act_item.display_results == 2'b01) begin
+        exp_item.candidate_name = 2'b10;
+        exp_item.results = counter2;
+      end
+      else if(act_item.voting_session_done && act_item.display_results == 2'b10) begin
+        exp_item.candidate_name = 2'b11;
+        exp_item.results = counter3;
+      end
       else begin
-        exp_item.results = vote[2];
-        exp_item.candidate_name = (vote[2] == counter1)?2'b01:((vote[2] == counter2)?2'b10:2'b11);
-        exp_item.invalid_results = 0;
+        exp_item.candidate_name = 2'b00;
+        exp_item.results = 0;
+      end
+
+      //Display winner and vote count
+      vote = '{counter1, counter2, counter3};
+      vote.sort();
+      if(act_item.voting_session_done && act_item.display_winner || candidate_ready_timeout == 100) begin
+        if(vote[2] == vote[1]) begin
+          exp_item.invalid_results = 1;
+          exp_item.results = 0;
+          exp_item.candidate_name = 0;
+        end
+        else begin
+          exp_item.results = vote[2];
+          exp_item.candidate_name = (vote[2] == counter1)?2'b01:((vote[2] == counter2)?2'b10:2'b11);
+          exp_item.invalid_results = 0;
+        end
+      end
+
+      if(waiting_for_vote_timeout == 100) begin
+        waiting_for_vote_timeout = 0;
+        $display("Time out waitng to vote");
+      end
+
+      if(candidate_ready_timeout == 100) begin
+        candidate_ready_timeout = 0;
+        $display("Time out waitng for candidate");
+        exp_item.voting_done = 1;
       end
     end
   endtask
@@ -119,7 +159,7 @@ class evm_scb extends uvm_scoreboard;
       end
 
       if(actual_output.results == expected_output.results) begin
-        `uvm_info("SCB", $sformatf("THE RESULTS MATCHE | ACTUAL RESULT : %0d | EXPECTED RESULT : %0d",actual_output.results, expected_output.results), UVM_NONE)
+        `uvm_info("SCB", $sformatf("THE RESULTS MATCH | ACTUAL RESULT : %0d | EXPECTED RESULT : %0d",actual_output.results, expected_output.results), UVM_NONE)
       end
       else begin
         `uvm_info("SCB", $sformatf("THE RESULTS MISSMATCH | ACTUAL RESULT : %0d | EXPECTED RESULT : %0d",actual_output.results, expected_output.results), UVM_NONE)
@@ -143,7 +183,7 @@ class evm_scb extends uvm_scoreboard;
     end
     $display("\n========================================================================================\n");
   endtask
-  
+
   function void report_phase(uvm_phase phase);
     super.report_phase(phase);
     `uvm_info("SCB", $sformatf("||| TOTAL MATCHES     : %0d |||", pass_count), UVM_NONE)
