@@ -19,6 +19,7 @@ class evm_monitor_act extends uvm_monitor;
 	endfunction: build_phase
 
 	task run_phase(uvm_phase phase);
+		repeat(2)@(vif.mon_cb);
 		forever begin
 			evm_seq_item item = evm_seq_item::type_id::create("item");
 			@(vif.mon_cb);
@@ -58,6 +59,7 @@ class evm_monitor_pass extends uvm_monitor;
 	endfunction: build_phase
 
 	task run_phase(uvm_phase phase);
+		repeat(2)@(vif.mon_cb);
 		forever begin
 			evm_seq_item item = evm_seq_item::type_id::create("item");
 			@(vif.mon_cb);
