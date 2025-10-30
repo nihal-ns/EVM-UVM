@@ -58,7 +58,6 @@ class evm_scb extends uvm_scoreboard;
       counter1 = 0;
       counter2 = 0;
       counter3 = 0;
-
     end
     else begin
 
@@ -67,23 +66,18 @@ class evm_scb extends uvm_scoreboard;
         candidate_ready_timeout = 0;
         ready_flag = 1;
       end
-      else if(act_item.switch_on_evm && !act_item.candidate_ready && !ready_flag) begin
+      else if(act_item.switch_on_evm && !act_item.candidate_ready) begin
         candidate_ready_timeout ++;
       end
 
       //Vote counter
-      if(ready_flag && !act_item.candidate_ready && act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
-        counter1 ++;
-        ready_flag = 0;
-        waiting_for_vote_timeout = 0;
-      end
-      else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && act_item.vote_candidate_2 && ~act_item.vote_candidate_3) begin
-        counter2 ++;
-        ready_flag = 0;
-        waiting_for_vote_timeout = 0;
-      end
-      else if(ready_flag && !act_item.candidate_ready && ~act_item.vote_candidate_1 && ~act_item.vote_candidate_2 && act_item.vote_candidate_3) begin
-        counter3++;
+      if (ready_flag && !act_item.candidate_ready) begin
+        case ({act_item.vote_candidate_1, act_item.vote_candidate_2, act_item.vote_candidate_3})
+          3'b100, 3'b110, 3'b101: counter1++;
+          3'b010, 3'b011:         counter2++;
+          3'b001:                 counter3++;
+          default: ;
+        endcase
         ready_flag = 0;
         waiting_for_vote_timeout = 0;
       end
@@ -121,7 +115,7 @@ class evm_scb extends uvm_scoreboard;
       //Display winner and vote count
       vote = '{counter1, counter2, counter3};
       vote.sort();
-      if(act_item.voting_session_done && act_item.display_winner || candidate_ready_timeout == 100) begin
+      if(act_item.voting_session_done && act_item.display_winner) begin
         if(vote[2] == vote[1]) begin
           exp_item.invalid_results = 1;
           exp_item.results = 0;
