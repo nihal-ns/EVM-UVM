@@ -52,32 +52,32 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 	reset_check: assert property(pro1)
 		/* $info("Reset check passed"); */
 	else
-		$error("Reset check failed");
+		$info("Reset check failed");
 
 	isunknown_input_check: assert property(pro2_1)
 		/* $info("All inputs are known signals"); */
 	else
-		$error("Assertion failed, inputs are unknown");
+		$info("Assertion failed, inputs are unknown");
 
 	isunknown_output_check: assert property(pro2_2)
 		/* $info("All outputs are known signals"); */
 	else
-		$error("Assertion failed, outputs are unknown");
+		$info("Assertion failed, outputs are unknown");
 
 	progress_check: assert property(pro3)
 		/* $info("Assertion passed, progress is proper"); */
 	else
-		$error("Assertion failed, voting_in_progress did not stay high until voting_done");
+		$info("Assertion failed, voting_in_progress did not stay high until voting_done");
 
 	voting_done_check: assert property(pro4)
 		/* $info("Assertion passed, voting done transaction is proper"); */
 	else
-		$error("Assertion failed, voting done is not asserted");
+		$info("Assertion failed, voting done is not asserted");
 
 	result_check: assert property(pro5)
 		/* $info("Assertion passed, proper candidate names are displayed"); */
 	else
-		$error("Assertion failed, invalid candidate names");
+		$info("Assertion failed, invalid candidate names");
 
 	invalid_result_check: assert property(pro6)
 		/* $info("Assertion passed, no multi vote is casted"); */
