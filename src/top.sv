@@ -47,7 +47,7 @@ module top;
 
   initial begin
     uvm_config_db#(virtual evm_interface)::set(null, "*", "vif", intf);
-    run_test("double_vote_test");
+    run_test("regression_test");
   end
 
 

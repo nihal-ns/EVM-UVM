@@ -277,6 +277,7 @@ class evm_off_sequence extends uvm_sequence #(evm_seq_item);
 	to_waiting_candidate_state to_waiting_for_candidate_state;
 	waiting_candidate_2_waiting_vote_state_sequence waiting_candidate_2_waiting_vote;
 	random_candidate_win random_candidate_win;
+	to_voting_process_done_state to_voting_process_done_state;
 
 	function new(string name = "evm_off_sequence");
 		super.new(name);
@@ -299,6 +300,7 @@ class evm_sudden_done_sequence extends uvm_sequence #(evm_seq_item);
 	`uvm_object_utils(evm_sudden_done_sequence)
 
 	to_waiting_candidate_state to_waiting_for_candidate_state;
+	to_voting_process_done_state to_voting_process_done_state;
 	waiting_candidate_2_waiting_vote_state_sequence waiting_candidate_2_waiting_vote;
   random_candidate_win random_candidate_win;
 	function new(string name = "evm_sudden_done_sequence");
@@ -584,6 +586,9 @@ class regression_sequence extends uvm_sequence #(evm_seq_item);
 	evm_timeout2_sequence evm_timeout2_sequence;		
 	turn_off_machine turn_off_machine;
 
+	to_waiting_candidate_state to_waiting_for_candidate_state;
+	to_voting_process_done_state to_voting_process_done_state;
+
 	function new(string name = "regression_sequence");
 		super.new(name);
 	endfunction: new
@@ -598,10 +603,16 @@ class regression_sequence extends uvm_sequence #(evm_seq_item);
 		`uvm_do(evm_tie_min_sequence);
 		`uvm_do(turn_off_machine);
 		`uvm_do(evm_off_sequence);
-	// Here
+		// This is to safely turn off machine
+		`uvm_do(to_waiting_for_candidate_state); 
+		`uvm_do(to_voting_process_done_state); 
+
 		`uvm_do(turn_off_machine);
 		`uvm_do(evm_sudden_done_sequence);
-	// Here
+		// This is to safely turn off machine
+		`uvm_do(to_waiting_for_candidate_state); 
+		`uvm_do(to_voting_process_done_state); 
+
 		`uvm_do(turn_off_machine);
 		`uvm_do(evm_count_cast_sequence);
 		`uvm_do(turn_off_machine);
