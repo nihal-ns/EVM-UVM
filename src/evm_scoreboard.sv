@@ -5,7 +5,7 @@ class evm_scb extends uvm_scoreboard;
   evm_seq_item expect_q[$];
   evm_seq_item actual_q[$];
 
-  static bit [6:0] counter1, counter2, counter3;
+  static bit [7:0] counter1, counter2, counter3;
   static bit [7:0] candidate_ready_timeout, waiting_for_vote_timeout;
 
   static int pass_count, fail_count;
@@ -51,7 +51,15 @@ class evm_scb extends uvm_scoreboard;
   endtask
 
   task compute_expect_result(input evm_seq_item act_item, ref evm_seq_item exp_item);
-    if(!act_item.switch_on_evm) begin
+    if(!act_item.scb_rst) begin
+      exp_item.candidate_name = 0;
+      exp_item.results = 0;
+      exp_item.invalid_results = 0;
+      counter1 = 0;
+      counter2 = 0;
+      counter3 = 0;
+    end
+    else if(!act_item.switch_on_evm) begin
       exp_item.candidate_name = 0;
       exp_item.results = 0;
       exp_item.invalid_results = 0;
@@ -70,7 +78,6 @@ class evm_scb extends uvm_scoreboard;
         candidate_ready_timeout ++;
       end
 
-      //Vote counter
       if (ready_flag && !act_item.candidate_ready) begin
         case ({act_item.vote_candidate_1, act_item.vote_candidate_2, act_item.vote_candidate_3})
           3'b100, 3'b110, 3'b101: counter1++;
