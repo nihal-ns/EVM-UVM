@@ -5,7 +5,7 @@ class evm_scb extends uvm_scoreboard;
   evm_seq_item expect_q[$];
   evm_seq_item actual_q[$];
 
-  static bit [7:0] counter1, counter2, counter3;
+  static bit [6:0] counter1, counter2, counter3;
   static bit [7:0] candidate_ready_timeout, waiting_for_vote_timeout;
 
   static int pass_count, fail_count;
