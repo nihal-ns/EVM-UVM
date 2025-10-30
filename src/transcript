@@ -1,0 +1,489 @@
+# //  Questa Sim
+# //  Version 10.6c linux Jul 25 2017
+# //
+# //  Copyright 1991-2017 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# vsim -novopt work.top 
+# Start time: 10:59:20 on Oct 30,2025
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing /fetools/work_area/frontend/Batch_10/omkar/projects/EVM-UVM/src/work.top
+# Refreshing /fetools/work_area/frontend/Batch_10/omkar/projects/EVM-UVM/src/work.evm_interface
+# Loading sv_std.std
+# Loading work.evm_interface
+# Refreshing /fetools/work_area/frontend/Batch_10/omkar/projects/EVM-UVM/src/work.evm_pkg
+# Loading mtiUvm.uvm_pkg
+# Loading work.evm_pkg
+# Loading work.top
+# Refreshing /fetools/work_area/frontend/Batch_10/omkar/projects/EVM-UVM/src/work.evm
+# Loading work.evm
+# Loading mtiUvm.questa_uvm_pkg
+# Refreshing /fetools/work_area/frontend/Batch_10/omkar/projects/EVM-UVM/src/work.evm_assertion
+# Loading work.evm_assertion
+# ** Warning: (vsim-3015) top.sv(22): [PCDPC] - Port size (7) does not match connection size (8) for port 'results'. The port definition is at: evm_tto.v(14).
+#    Time: 0 ns  Iteration: 0  Instance: /top/DUT File: evm_tto.v
+# Loading /tools/mentor/questasim_10.6c/questasim/uvm-1.1d/linux/uvm_dpi.so
+add wave -position insertpoint  \
+sim:/top/intf/clk \
+sim:/top/intf/rst \
+sim:/top/intf/vote_candidate_1 \
+sim:/top/intf/vote_candidate_2 \
+sim:/top/intf/vote_candidate_3 \
+sim:/top/intf/switch_on_evm \
+sim:/top/intf/candidate_ready \
+sim:/top/intf/voting_session_done \
+sim:/top/intf/display_results \
+sim:/top/intf/display_winner \
+sim:/top/intf/candidate_name \
+sim:/top/intf/invalid_results \
+sim:/top/intf/results \
+sim:/top/intf/voting_in_progress \
+sim:/top/intf/voting_done
+add wave -position insertpoint  \
+sim:/top/DUT/candidate_1_vote_count \
+sim:/top/DUT/candidate_2_vote_count \
+sim:/top/DUT/candidate_3_vote_count
+run -a
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(217) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test double_vote_test...
+# ---------------------------------------------------------------------
+# Name                       Type                           Size  Value
+# ---------------------------------------------------------------------
+# uvm_test_top               double_vote_test               -     @472 
+#   env                      evm_env                        -     @479 
+#     agt_act                evm_agent_active               -     @486 
+#       act_mon_h            evm_monitor_act                -     @677 
+#         mon_act_port       uvm_analysis_port              -     @684 
+#       drv_h                evm_driver                     -     @545 
+#         rsp_port           uvm_analysis_port              -     @560 
+#         seq_item_port      uvm_seq_item_pull_port         -     @552 
+#       sqr_h                evm_sequencer                  -     @568 
+#         rsp_export         uvm_analysis_export            -     @575 
+#         seq_item_export    uvm_seq_item_pull_imp          -     @669 
+#         arbitration_queue  array                          0     -    
+#         lock_queue         array                          0     -    
+#         num_last_reqs      integral                       32    'd1  
+#         num_last_rsps      integral                       32    'd1  
+#     agt_pass               evm_agent_passive              -     @493 
+#       pas_mon_h            evm_monitor_pass               -     @701 
+#         mon_pass_port      uvm_analysis_port              -     @708 
+#     cov                    evm_subscriber                 -     @523 
+#       analysis_imp         uvm_analysis_imp               -     @530 
+#       mon_act_cg_port      uvm_analysis_imp_mon_input_cg  -     @717 
+#       mon_pass_cg_port     uvm_analysis_imp               -     @725 
+#     scb                    evm_scb                        -     @500 
+#       actual_item          uvm_analysis_imp_pass_mon      -     @515 
+#       expect_item          uvm_analysis_imp_act_mon       -     @507 
+# ---------------------------------------------------------------------
+# 
+# UVM_INFO evm_driver.sv(37) @ 15: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 15: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# ** Error: Assertion failed, inputs are unknown
+#    Time: 15 ns Started: 15 ns  Scope: top.intf.ASSERT.isunknown_input_check File: evm_assertion.sv Line: 60
+# UVM_INFO evm_monitor.sv(35) @ 25: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 25: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 25: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 1 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 25: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 35: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:1 | done:0
+# 
+# UVM_INFO evm_monitor.sv(35) @ 35: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:1 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 35: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 1 
+# 
+# UVM_INFO evm_driver.sv(39) @ 35: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(35) @ 45: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 4 | session done:0 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 45: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 45: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 1 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 45: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 55: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:1 | done:0
+# 
+# UVM_INFO evm_monitor.sv(35) @ 55: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:1 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 55: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 1 
+# 
+# UVM_INFO evm_driver.sv(39) @ 55: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(35) @ 65: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 4 | session done:0 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 65: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 65: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 1 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 65: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 75: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:1 | done:0
+# 
+# UVM_INFO evm_monitor.sv(35) @ 75: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:1 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 75: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 1 
+# 
+# UVM_INFO evm_driver.sv(39) @ 75: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(35) @ 85: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 4 | session done:0 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 85: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 85: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 1 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 85: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 95: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:1 | done:0
+# 
+# UVM_INFO evm_monitor.sv(35) @ 95: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:1 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 95: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 1 | candidate_2 = 1 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 95: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(35) @ 105: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 3 | session done:0 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 105: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 105: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 1 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 105: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 115: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:1 | done:0
+# 
+# UVM_INFO evm_monitor.sv(35) @ 115: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:1 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 115: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 1 | candidate_3 = 1 
+# 
+# UVM_INFO evm_driver.sv(39) @ 115: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# ** Error: Assertion failed, invalid result is not asserted
+#    Time: 115 ns Started: 105 ns  Scope: top.intf.ASSERT.invalid_result_check File: evm_assertion.sv Line: 85
+# UVM_INFO evm_monitor.sv(35) @ 125: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 6 | session done:0 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 125: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 125: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 1 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 125: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 135: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:1 | done:0
+# 
+# UVM_INFO evm_monitor.sv(35) @ 135: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:1 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 135: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 1 | candidate_2 = 0 | candidate_3 = 1 
+# 
+# UVM_INFO evm_driver.sv(39) @ 135: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# ** Error: Assertion failed, invalid result is not asserted
+#    Time: 135 ns Started: 125 ns  Scope: top.intf.ASSERT.invalid_result_check File: evm_assertion.sv Line: 85
+# UVM_INFO evm_monitor.sv(35) @ 145: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 5 | session done:0 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 145: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 145: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 145: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 0 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 155: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:0 | invalid results:0 | results:0 | progess:0 | done:0
+# 
+# UVM_INFO evm_monitor.sv(35) @ 155: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:0 | display results:0 | display winner :0
+# 
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 155: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 155: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 1 | display_results = 0 | display_winner = 0 
+# 
+# ** Error: Assertion failed, invalid result is not asserted
+#    Time: 155 ns Started: 145 ns  Scope: top.intf.ASSERT.invalid_result_check File: evm_assertion.sv Line: 85
+# UVM_INFO evm_monitor.sv(35) @ 165: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:1 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 165: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:1 | invalid results:0 | results:2 | progess:0 | done:1
+# 
+# UVM_INFO evm_scoreboard.sv(152) @ 165: uvm_test_top.env.scb [SCB] VOTE COUNT | C1 VOTES: 0 | C2 VOTES: 0 | C3 VOTES: 3
+# UVM_INFO evm_scoreboard.sv(155) @ 165: uvm_test_top.env.scb [SCB] THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : 1 | EXPECTED CANDIDATE : 1
+# UVM_INFO evm_scoreboard.sv(165) @ 165: uvm_test_top.env.scb [SCB] THE RESULTS MISSMATCH | ACTUAL RESULT : 2 | EXPECTED RESULT : 0
+# UVM_INFO evm_scoreboard.sv(172) @ 165: uvm_test_top.env.scb [SCB] THE INVALID RESULTS MISSMATCH | ACTUAL INVALID RESULT :0 | EXPECTED INVALID RESULT : x
+# UVM_INFO evm_scoreboard.sv(181) @ 165: uvm_test_top.env.scb [SCB] MISSMATCH
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 165: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 165: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 1 | display_results = 0 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 175: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:1 | invalid results:0 | results:2 | progess:0 | done:1
+# 
+# UVM_INFO evm_monitor.sv(35) @ 175: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:1 | display results:0 | display winner :0
+# 
+# UVM_INFO evm_scoreboard.sv(152) @ 175: uvm_test_top.env.scb [SCB] VOTE COUNT | C1 VOTES: 0 | C2 VOTES: 0 | C3 VOTES: 3
+# UVM_INFO evm_scoreboard.sv(155) @ 175: uvm_test_top.env.scb [SCB] THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : 1 | EXPECTED CANDIDATE : 1
+# UVM_INFO evm_scoreboard.sv(165) @ 175: uvm_test_top.env.scb [SCB] THE RESULTS MISSMATCH | ACTUAL RESULT : 2 | EXPECTED RESULT : 0
+# UVM_INFO evm_scoreboard.sv(172) @ 175: uvm_test_top.env.scb [SCB] THE INVALID RESULTS MISSMATCH | ACTUAL INVALID RESULT :0 | EXPECTED INVALID RESULT : x
+# UVM_INFO evm_scoreboard.sv(181) @ 175: uvm_test_top.env.scb [SCB] MISSMATCH
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 175: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 175: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 1 | display_results = 1 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(35) @ 185: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:1 | display results:1 | display winner :0
+# 
+# UVM_INFO evm_monitor.sv(72) @ 185: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:2 | invalid results:0 | results:1 | progess:0 | done:1
+# 
+# UVM_INFO evm_scoreboard.sv(152) @ 185: uvm_test_top.env.scb [SCB] VOTE COUNT | C1 VOTES: 0 | C2 VOTES: 0 | C3 VOTES: 3
+# UVM_INFO evm_scoreboard.sv(155) @ 185: uvm_test_top.env.scb [SCB] THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : 2 | EXPECTED CANDIDATE : 2
+# UVM_INFO evm_scoreboard.sv(165) @ 185: uvm_test_top.env.scb [SCB] THE RESULTS MISSMATCH | ACTUAL RESULT : 1 | EXPECTED RESULT : 0
+# UVM_INFO evm_scoreboard.sv(172) @ 185: uvm_test_top.env.scb [SCB] THE INVALID RESULTS MISSMATCH | ACTUAL INVALID RESULT :0 | EXPECTED INVALID RESULT : x
+# UVM_INFO evm_scoreboard.sv(181) @ 185: uvm_test_top.env.scb [SCB] MISSMATCH
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 185: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 185: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 1 | display_results = 2 | display_winner = 0 
+# 
+# UVM_INFO evm_monitor.sv(72) @ 195: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:3 | invalid results:0 | results:3 | progess:0 | done:1
+# 
+# UVM_INFO evm_monitor.sv(35) @ 195: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:1 | display results:2 | display winner :0
+# 
+# UVM_INFO evm_scoreboard.sv(152) @ 195: uvm_test_top.env.scb [SCB] VOTE COUNT | C1 VOTES: 0 | C2 VOTES: 0 | C3 VOTES: 3
+# UVM_INFO evm_scoreboard.sv(155) @ 195: uvm_test_top.env.scb [SCB] THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : 3 | EXPECTED CANDIDATE : 3
+# UVM_INFO evm_scoreboard.sv(162) @ 195: uvm_test_top.env.scb [SCB] THE RESULTS MATCH | ACTUAL RESULT : 3 | EXPECTED RESULT : 3
+# UVM_INFO evm_scoreboard.sv(172) @ 195: uvm_test_top.env.scb [SCB] THE INVALID RESULTS MISSMATCH | ACTUAL INVALID RESULT :0 | EXPECTED INVALID RESULT : x
+# UVM_INFO evm_scoreboard.sv(181) @ 195: uvm_test_top.env.scb [SCB] MISSMATCH
+# 
+# ========================================================================================
+# 
+# 
+# UVM_INFO evm_driver.sv(37) @ 195: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# switch_on_evm = 1 | candidate_ready = 0 | candidate_1 = 0 | candidate_2 = 0 | candidate_3 = 0 
+# 
+# UVM_INFO evm_driver.sv(39) @ 195: uvm_test_top.env.agt_act.drv_h [ DRV ] 
+# voting_session_done = 1 | display_results = 0 | display_winner = 1 
+# 
+# UVM_INFO evm_monitor.sv(35) @ 205: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:1 | display results:0 | display winner :1
+# 
+# UVM_INFO evm_monitor.sv(72) @ 205: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:3 | invalid results:0 | results:3 | progess:0 | done:1
+# 
+# UVM_INFO evm_scoreboard.sv(152) @ 205: uvm_test_top.env.scb [SCB] VOTE COUNT | C1 VOTES: 0 | C2 VOTES: 0 | C3 VOTES: 3
+# UVM_INFO evm_scoreboard.sv(155) @ 205: uvm_test_top.env.scb [SCB] THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : 3 | EXPECTED CANDIDATE : 3
+# UVM_INFO evm_scoreboard.sv(162) @ 205: uvm_test_top.env.scb [SCB] THE RESULTS MATCH | ACTUAL RESULT : 3 | EXPECTED RESULT : 3
+# UVM_INFO evm_scoreboard.sv(169) @ 205: uvm_test_top.env.scb [SCB] THE INVALID RESULTS MATCH | ACTUAL INVALID RESULT :0 | EXPECTED INVALID RESULT : 0
+# UVM_INFO evm_scoreboard.sv(177) @ 205: uvm_test_top.env.scb [SCB] MATCHED
+# 
+# ========================================================================================
+# 
+############################################################################################################################
+# ** Error: Assertion failed, invalid candidate names
+#    Time: 205 ns Started: 175 ns  Scope: top.intf.ASSERT.result_check File: evm_assertion.sv Line: 80
+# UVM_INFO evm_monitor.sv(72) @ 215: uvm_test_top.env.agt_pass.pas_mon_h [evm_monitor_pass] 
+# Monitor passive: candidate name:3 | invalid results:0 | results:3 | progess:0 | done:1
+# 
+# UVM_INFO evm_monitor.sv(35) @ 215: uvm_test_top.env.agt_act.act_mon_h [evm_monitor_act] 
+# Monitor active: switch on:1 | ready:0 | candidate_1/2/3: 0 | session done:1 | display results:0 | display winner :1
+# 
+# UVM_INFO evm_scoreboard.sv(152) @ 215: uvm_test_top.env.scb [SCB] VOTE COUNT | C1 VOTES: 0 | C2 VOTES: 0 | C3 VOTES: 3
+# UVM_INFO evm_scoreboard.sv(155) @ 215: uvm_test_top.env.scb [SCB] THE CANDIDATE NAME MATCH | ACTUAL CANDIDATE : 3 | EXPECTED CANDIDATE : 3
+# UVM_INFO evm_scoreboard.sv(162) @ 215: uvm_test_top.env.scb [SCB] THE RESULTS MATCH | ACTUAL RESULT : 3 | EXPECTED RESULT : 3
+# UVM_INFO evm_scoreboard.sv(169) @ 215: uvm_test_top.env.scb [SCB] THE INVALID RESULTS MATCH | ACTUAL INVALID RESULT :0 | EXPECTED INVALID RESULT : 0
+# UVM_INFO evm_scoreboard.sv(177) @ 215: uvm_test_top.env.scb [SCB] MATCHED
+# 
+# ========================================================================================
+# 
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1268) @ 225: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO evm_subscriber.sv(116) @ 225: uvm_test_top.env.cov [evm_subscriber] Input Coverage  ------> 93.75%
+# UVM_INFO evm_subscriber.sv(117) @ 225: uvm_test_top.env.cov [evm_subscriber] Output Coverage ------> 76.67%
+# UVM_INFO evm_scoreboard.sv(189) @ 225: uvm_test_top.env.scb [SCB] ||| TOTAL MATCHES     : 2 |||
+# UVM_INFO evm_scoreboard.sv(190) @ 225: uvm_test_top.env.scb [SCB] ||| TOTAL MISSMATCHES : 4 |||
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  116
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [ DRV ]    38
+# [Questa UVM]     2
+# [RNTST]     1
+# [SCB]    32
+# [TEST_DONE]     1
+# [evm_monitor_act]    20
+# [evm_monitor_pass]    20
+# [evm_subscriber]     2
+# ** Note: $finish    : /tools/mentor/questasim_10.6c/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 225 ns  Iteration: 53  Instance: /top
+# 1
+# Break in Task uvm_pkg/uvm_root::run_test at /tools/mentor/questasim_10.6c/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+quit
+# End time: 11:03:07 on Oct 30,2025, Elapsed time: 0:03:47
+# Errors: 5, Warnings: 2

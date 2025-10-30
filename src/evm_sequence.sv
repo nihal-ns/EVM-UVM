@@ -529,6 +529,9 @@ class evm_counter_overflow_sequence extends uvm_sequence #(evm_seq_item);
 		end
 		`uvm_do(to_waiting_for_candidate_state); 
 		`uvm_do(to_voting_process_done_state); 
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;});
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 1; req.display_winner == 0;});
+		`uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 2; req.display_winner == 0;});
 	endtask: body
 endclass: evm_counter_overflow_sequence
 //-----------------------------------------------------------------------------------------------------------------------------
