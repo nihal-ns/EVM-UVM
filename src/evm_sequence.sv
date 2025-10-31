@@ -635,6 +635,66 @@ class evm_coverage2_sequence extends uvm_sequence #(evm_seq_item);
   endtask: body
 endclass: evm_coverage2_sequence
 //-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+// Coverage3
+class evm_coverage3_sequence extends uvm_sequence #(evm_seq_item);
+        `uvm_object_utils(evm_coverage3_sequence)
+
+        to_waiting_candidate_state to_waiting_for_candidate_state;
+        waiting_candidate_2_waiting_vote_state_sequence waiting_candidate_2_waiting_vote;
+        to_voting_process_done_state to_voting_process_done_state;
+        candidate1_win candidate1_win;
+        candidate2_win candidate2_win;
+        candidate3_win candidate3_win;
+        turn_off_machine turn_off_machine;
+
+        function new(string name = "evm_coverage3_sequence");
+                super.new(name);
+        endfunction: new
+
+        virtual task body();
+                `uvm_do(to_waiting_for_candidate_state);
+                repeat(10)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate1_win);
+                end
+                repeat(10)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate2_win);
+                end
+                repeat(11)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate3_win);
+                end
+                `uvm_do(to_waiting_for_candidate_state);
+                `uvm_do(to_voting_process_done_state);
+
+                `uvm_do(turn_off_machine);
+
+                `uvm_do(to_waiting_for_candidate_state);
+                repeat(100)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate1_win);
+                end
+                repeat(100)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate3_win);
+                end
+                repeat(112)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate2_win);
+                end
+                `uvm_do(to_waiting_for_candidate_state);
+                `uvm_do(to_voting_process_done_state);
+        endtask: body
+endclass: evm_coverage3_sequence
+//-----------------------------------------------------------------------------------------------------------------------------
 // Regression Sequence
 class regression_sequence extends uvm_sequence #(evm_seq_item);
         `uvm_object_utils(regression_sequence)
@@ -656,6 +716,8 @@ class regression_sequence extends uvm_sequence #(evm_seq_item);
         turn_off_machine turn_off_machine;
         evm_coverage1_sequence evm_coverage1_sequence;
         evm_coverage2_sequence evm_coverage2_sequence;
+        evm_coverage3_sequence evm_coverage3_sequence;
+			
 
         to_waiting_candidate_state to_waiting_for_candidate_state;
         to_voting_process_done_state to_voting_process_done_state;
@@ -703,6 +765,9 @@ class regression_sequence extends uvm_sequence #(evm_seq_item);
                 `uvm_do(turn_off_machine);
                 `uvm_do(evm_coverage1_sequence);
                 `uvm_do(turn_off_machine);
+                `uvm_do(evm_coverage3_sequence);
+                `uvm_do(turn_off_machine);
                 `uvm_do(evm_coverage2_sequence);
+                `uvm_do(turn_off_machine);
         endtask: body
 endclass: regression_sequence
