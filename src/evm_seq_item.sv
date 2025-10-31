@@ -14,6 +14,8 @@ class evm_seq_item extends uvm_sequence_item;
 	logic voting_in_progress;
 	logic voting_done;
 
+	bit scb_rst;
+
 	`uvm_object_utils_begin(evm_seq_item)
 		`uvm_field_int(vote_candidate_1,UVM_ALL_ON)
 		`uvm_field_int(vote_candidate_2,UVM_ALL_ON)
@@ -28,6 +30,7 @@ class evm_seq_item extends uvm_sequence_item;
 		`uvm_field_int(results,UVM_ALL_ON)
 		`uvm_field_int(voting_in_progress ,UVM_ALL_ON)
 		`uvm_field_int(voting_done,UVM_ALL_ON)
+		`uvm_field_int(scb_rst,UVM_ALL_ON)
 	`uvm_object_utils_end
 
 	function new(string name="evm_seq_item");
