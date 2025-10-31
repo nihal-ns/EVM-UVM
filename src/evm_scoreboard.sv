@@ -11,6 +11,7 @@ class evm_scb extends uvm_scoreboard;
   static int pass_count, fail_count;
   bit [7:0] vote[3];
   bit ready_flag;
+  bit tie_detected;
 
   uvm_analysis_imp_act_mon #(evm_seq_item, evm_scb) expect_item;
   uvm_analysis_imp_pass_mon #(evm_seq_item, evm_scb) actual_item;
@@ -95,34 +96,43 @@ class evm_scb extends uvm_scoreboard;
         ready_flag = 0;
       end
       else if(ready_flag && !act_item.candidate_ready) begin
-       /* counter1 = counter1;
-        counter2 = counter2;
-        counter3 = counter3;*/
         waiting_for_vote_timeout ++;
       end
 
-      //Display candidate and votes
-      if(act_item.voting_session_done && act_item.display_results == 2'b00) begin
-        exp_item.candidate_name = 2'b01;
-        exp_item.results = counter1;
-      end
-      else if(act_item.voting_session_done && act_item.display_results == 2'b01) begin
-        exp_item.candidate_name = 2'b10;
-        exp_item.results = counter2;
-      end
-      else if(act_item.voting_session_done && act_item.display_results == 2'b10) begin
-        exp_item.candidate_name = 2'b11;
-        exp_item.results = counter3;
-      end
-      else begin
-        exp_item.candidate_name = 2'b00;
-        exp_item.results = 0;
-      end
-
-      //Display winner and vote count
       vote = '{counter1, counter2, counter3};
       vote.sort();
-      if(act_item.voting_session_done && act_item.display_winner) begin
+      tie_detected = (vote[2] == vote[1])?1:0;
+
+      //Display candidate and votes
+
+      if(tie_detected) begin
+        exp_item.candidate_name = 0;
+        exp_item.results = 0;
+        exp_item.invalid_results = 1;
+      end
+      else begin
+        exp_item.invalid_results = 0;
+        if(act_item.voting_session_done && act_item.display_results == 2'b00 && !act_item.display_winner) begin
+          exp_item.candidate_name = 2'b01;
+          exp_item.results = counter1;
+        end
+        else if(act_item.voting_session_done && act_item.display_results == 2'b01 && !act_item.display_winner) begin
+          exp_item.candidate_name = 2'b10;
+          exp_item.results = counter2;
+        end
+        else if(act_item.voting_session_done && act_item.display_results == 2'b10 && !act_item.display_winner) begin
+          exp_item.candidate_name = 2'b11;
+          exp_item.results = counter3;
+        end
+        else begin
+          exp_item.candidate_name = 2'b00;
+          exp_item.results = 0;
+        end
+      end
+
+
+      //Display winner and vote count
+      if((act_item.voting_session_done && act_item.display_winner) || (act_item.voting_session_done && act_item.display_winner && act_item.display_results >= 0 )) begin
         if(vote[2] == vote[1]) begin
           exp_item.invalid_results = 1;
           exp_item.results = 0;
@@ -134,6 +144,7 @@ class evm_scb extends uvm_scoreboard;
           exp_item.invalid_results = 0;
         end
       end
+
 
       if(waiting_for_vote_timeout == 100) begin
         waiting_for_vote_timeout = 0;
