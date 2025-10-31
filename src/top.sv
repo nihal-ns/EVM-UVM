@@ -44,7 +44,7 @@ module top;
 		repeat(2) @(posedge clk);
 		rst = 1;
 	  #205 rst = 0;
-	  #50 rst = 1'
+	  #50 rst = 1;
   end
 
   initial begin
