@@ -80,7 +80,7 @@ class evm_scb extends uvm_scoreboard;
 
       if (ready_flag && !act_item.candidate_ready) begin
         case ({act_item.vote_candidate_1, act_item.vote_candidate_2, act_item.vote_candidate_3})
-          3'b100, 3'b110, 3'b101: counter1++;
+          3'b100, 3'b110, 3'b101, 3'b111: counter1++;
           3'b010, 3'b011:         counter2++;
           3'b001:                 counter3++;
           default: ;
