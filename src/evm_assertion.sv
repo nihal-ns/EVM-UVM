@@ -79,7 +79,7 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 	else
 		$info("Assertion failed, invalid candidate names");
 
-	invalid_result_check: assert property(pro6)
+	multi_vote_check: assert property(pro6)
 		$info("Assertion, Two or three simultanoues votes detected");
 	else
 		$info("Assertion, No multi vote is casted");
