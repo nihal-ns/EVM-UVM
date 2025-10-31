@@ -670,7 +670,7 @@ class evm_coverage3_sequence extends uvm_sequence #(evm_seq_item);
                         `uvm_do(candidate3_win);
                 end
                 `uvm_do(to_waiting_for_candidate_state);
-                `uvm_do(to_voting_process_done_state);
+                `uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 3; req.voting_session_done == 1; req.display_results == 1; req.display_winner == 1;});
 
                 `uvm_do(turn_off_machine);
 
@@ -689,6 +689,47 @@ class evm_coverage3_sequence extends uvm_sequence #(evm_seq_item);
                 begin
                         `uvm_do(waiting_candidate_2_waiting_vote);
                         `uvm_do(candidate2_win);
+                end
+                `uvm_do(to_waiting_for_candidate_state);
+                `uvm_do(to_voting_process_done_state);
+//Important
+                `uvm_do(turn_off_machine);
+                `uvm_do(to_waiting_for_candidate_state);
+                repeat(100)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate3_win);
+                end
+                repeat(50)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate2_win);
+                end
+                repeat(25)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate1_win);
+                end
+                `uvm_do(to_waiting_for_candidate_state);
+                `uvm_do(to_voting_process_done_state);
+
+                `uvm_do(turn_off_machine);
+
+                `uvm_do(to_waiting_for_candidate_state);
+                repeat(25)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate3_win);
+                end
+                repeat(50)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate2_win);
+                end
+                repeat(50)
+                begin
+                        `uvm_do(waiting_candidate_2_waiting_vote);
+                        `uvm_do(candidate1_win);
                 end
                 `uvm_do(to_waiting_for_candidate_state);
                 `uvm_do(to_voting_process_done_state);
