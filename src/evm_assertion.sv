@@ -46,7 +46,7 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 
 	// invalid result check
 	property pro6;
-		@(posedge clk) disable iff (!rst) candidate_ready |=> !candidate_ready && ($countones({vote_candidate_1, vote_candidate_2, vote_candidate_3}) > 1) |=> invalid_results; 
+		@(posedge clk) disable iff (!rst) candidate_ready |=> !candidate_ready && ($countones({vote_candidate_1, vote_candidate_2, vote_candidate_3}) > 1); 
 	endproperty
 
 	reset_check: assert property(pro1)
@@ -80,8 +80,8 @@ program evm_assertion (clk, rst, vote_candidate_1, vote_candidate_2, vote_candid
 		$info("Assertion failed, invalid candidate names");
 
 	invalid_result_check: assert property(pro6)
-		/* $info("Assertion passed, no multi vote is casted"); */
+		$info("Assertion, Two or three simultanoues votes detected");
 	else
-		$info("Assertion failed, invalid result is not asserted");
+		$info("Assertion, No multi vote is casted");
 		
 endprogram: evm_assertion
