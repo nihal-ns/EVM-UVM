@@ -19,10 +19,11 @@ class evm_monitor_act extends uvm_monitor;
 	endfunction: build_phase
 
 	task run_phase(uvm_phase phase);
-		repeat(2)@(vif.mon_cb);
-		forever begin
-			evm_seq_item item = evm_seq_item::type_id::create("item");
-			@(vif.mon_cb);
+    	repeat(2)@(vif.mon_cb);
+            forever begin
+            evm_seq_item item = evm_seq_item::type_id::create("item");
+            item.scb_rst = vif.rst;
+            @(vif.mon_cb);
 			item.vote_candidate_1 = vif.vote_candidate_1;
 			item.vote_candidate_2 = vif.vote_candidate_2;
 			item.vote_candidate_3 = vif.vote_candidate_3;
