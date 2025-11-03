@@ -381,7 +381,8 @@ class regression_test extends evm_test;
 		phase.raise_objection(this, "Objection Raised");
 		phase.phase_done.set_drain_time(this, 20ns);
 			seq = regression_sequence::type_id::create("seq");	
-			seq.start(env.agt_act.sqr_h);
+			repeat(10)
+				seq.start(env.agt_act.sqr_h);
 		phase.drop_objection(this, "Objection Dropped");
 		$display("############################################################################################################################");
 	endtask: run_phase
