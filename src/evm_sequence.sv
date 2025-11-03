@@ -302,7 +302,7 @@ class evm_sudden_done_sequence extends uvm_sequence #(evm_seq_item);
         to_waiting_candidate_state to_waiting_for_candidate_state;
         to_voting_process_done_state to_voting_process_done_state;
         waiting_candidate_2_waiting_vote_state_sequence waiting_candidate_2_waiting_vote;
-  random_candidate_win random_candidate_win;
+  			random_candidate_win random_candidate_win;
         function new(string name = "evm_sudden_done_sequence");
                 super.new(name);
         endfunction: new
@@ -342,6 +342,7 @@ class evm_count_cast_sequence extends uvm_sequence #(evm_seq_item);
                         `uvm_do(random_candidate_win);
                 end
                 `uvm_do(to_waiting_for_candidate_state);
+                `uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;});
                 `uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 0; req.display_winner == 0;});
                 `uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 1; req.display_winner == 0;});
                 `uvm_do_with(req,{req.switch_on_evm == 1; req.candidate_ready == 0; {req.vote_candidate_3, req.vote_candidate_2, req.vote_candidate_1} == 0; req.voting_session_done == 1; req.display_results == 2; req.display_winner == 0;});
