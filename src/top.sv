@@ -1,4 +1,4 @@
-`define WIDTH 8
+`define WIDTH 7
 `include "uvm_macros.svh"
 `include "evm_interface.sv"
 `include "evm_tto.v"
