@@ -34,6 +34,10 @@ To run a simulation with coverage collection and generate an report:
 ```
 make cov
 ```
+or
+```
+make cov test=your_test_name
+```
 Cleaning the Directory
 To remove all generated files (log files, work directory, coverage reports, etc.):
 ```
